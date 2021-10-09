@@ -1,5 +1,6 @@
 import { IQuestionWithId } from './interfaces/Question';
 import { IUserWithId } from './interfaces/User';
+import {IFormWithId} from "./interfaces/Form";
 
 export interface AuthBody {
   login: string;
@@ -25,4 +26,12 @@ export interface IQuestionMessage {
 
 export interface IUserMessage {
   user: IUserWithId;
+}
+
+export interface IFormMessage {
+  form: IFormWithId;
+}
+
+export interface IFormsMessage {
+  forms: IFormWithId[];
 }

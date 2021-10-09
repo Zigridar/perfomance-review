@@ -95,7 +95,6 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       check('id', 'incorrect id').exists().notEmpty(),
       check('login', 'incorrect login').exists().notEmpty(),
       check('name', 'incorrect mane').exists().notEmpty(),
-      check('expirationDate', 'incorrect mane').exists()
     ],
     async (req: express.Request<ParamsDictionary, any, IUserWithId>, res: express.Response) => {
       try {
@@ -179,7 +178,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
       }
       catch (e: any) {
-        await res.status(500).json({ error: `can\` delete user, ${e.message}` });
+        await res.status(500).json({ error: `can\`t delete user, ${e.message}` });
       }
     }
   );
