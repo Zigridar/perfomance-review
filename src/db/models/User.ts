@@ -11,7 +11,7 @@ const UserSchema: Schema<DocumentUser> = new Schema<DocumentUser>({
   password: { type: String, required: true },
   name: { type: String, required: true },
   admin: { type: Boolean, required: true, default: false },
-  leader: { type: Boolean, required: true, default: false}
+  leader: { type: Boolean, required: true, default: false }
 });
 
 const User: Model<DocumentUser> = model<DocumentUser>('user', UserSchema);
@@ -29,6 +29,7 @@ export const createUserIfNotExists: () => Promise<Nullable<DocumentUser>> = asyn
     user.password = await bcrypt.hash(config.INIT_USER_PASSWORD, 10);
     user.name = 'Auto';
     user.admin = true;
+    user.leader = true;
     return await user.save();
   }
   else return null;
