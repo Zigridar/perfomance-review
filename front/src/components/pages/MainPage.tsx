@@ -1,6 +1,7 @@
 import React, {ReactNode, useState} from "react";
 import MainLayout from "./MainLayout";
 import {Menu, Tabs} from "antd";
+import FormForm from "../FormForm";
 
 const {TabPane} = Tabs
 
@@ -40,7 +41,7 @@ const MainPage: React.FC = () => {
   const menuItems = [
     {
       title: 'Анкеты',
-      content: 'Анкеты'
+      content: <FormForm/>
     },
     {
       title: 'Вопросы',

@@ -5,3 +5,8 @@
 .ant-tabs-content {
     height: 100%;
 }
+
+.ant-form-item-label label {
+    font-size: 20px;
+    font-weight: bold;
+}
