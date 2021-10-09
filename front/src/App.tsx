@@ -12,7 +12,7 @@ import Routes from './Routes';
 export const App = () => {
 
   /** is user authenticated now? **/
-  const [isAuth, setAuth] = useState<boolean>(true);
+  const [isAuth, setAuth] = useState<boolean>(false);
 
   /** is user admin */
   const [admin, setAdmin] = useState<boolean>(false);
