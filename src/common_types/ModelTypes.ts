@@ -3,6 +3,7 @@ export interface IUser {
   password: string;
   name: string;
   admin: boolean;
+  leader: boolean;
 }
 
 export interface IUserWithId extends IUser {

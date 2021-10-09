@@ -11,6 +11,7 @@ const UserSchema: Schema<DocumentUser> = new Schema<DocumentUser>({
   password: { type: String, required: true },
   name: { type: String, required: true },
   admin: { type: Boolean, required: true, default: false },
+  leader: { type: Boolean, required: true, default: false}
 });
 
 const User: Model<DocumentUser> = model<DocumentUser>('user', UserSchema);
@@ -40,6 +41,7 @@ export const toIUserWithId: (user: DocumentUser) => IUserWithId = (user: Documen
     password: user.password,
     login: user.login,
     admin: user.admin,
-    name: user.name
+    name: user.name,
+    leader: user.leader
   };
 }
