@@ -3,14 +3,12 @@ import cookieParser from 'cookie-parser';
 import express, {Express} from 'express';
 import http from 'http';
 import path from 'path';
-import {Server} from 'socket.io';
 import {APIPath} from './APIPath';
 import {getConfig} from './config';
 import {dbConnect} from './db/connect';
 import {createUserIfNotExists} from './db/models/User';
 import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
-import socketController from './socket/socketController';
 
 /** app config */
 const config = getConfig();
@@ -39,11 +37,6 @@ if (config.MODE === 'production') {
 
 /** run server */
 server.listen(config.PORT, () => {
-  /** init socket controller */
-  socketController(new Server(server, {
-    maxHttpBufferSize: 1e8
-  }));
-
   console.info(`Server startup ${new Date().toUTCString()}`);
 });
 
