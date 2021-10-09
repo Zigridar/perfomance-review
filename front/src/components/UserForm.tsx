@@ -1,6 +1,6 @@
 import {Checkbox, Form, FormInstance, Input} from 'antd';
 import React from 'react';
-import {IUserWithId} from '../../../src/common_types/ModelTypes';
+import {IUserWithId} from "../../../src/common_types/interfaces/User";
 
 interface IUserFormProps {
   user: IUserWithId;

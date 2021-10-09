@@ -14,12 +14,14 @@ const Routes: React.FC<IRoutesProps> = (props) => {
 
   const context = useContext(AuthContext);
 
+  const { loading, login } = props;
+
   return (
     <>
       {context.isAuth &&
       <Switch>
         <Route path="/main">
-          <MainPage logout={context.logout} />
+          <MainLayout sideWidth={400} sidebarContent={null}/>
         </Route>
         <Redirect to="/main"/>
       </Switch>
@@ -27,7 +29,7 @@ const Routes: React.FC<IRoutesProps> = (props) => {
       {!context.isAuth &&
         <Switch>
           <Route path="/" exact>
-            <AuthPage login={props.login} loading={props.loading}/>
+            <AuthPage login={login} loading={loading}/>
           </Route>
           <Redirect to="/"/>
         </Switch>

@@ -1,4 +1,3 @@
-import {IUserWithId} from '../../../src/common_types/ModelTypes';
 import {
   CREATE_USER,
   CreateUserAction,
@@ -9,6 +8,7 @@ import {
   LOAD_USERS,
   LoadUsersAction
 } from './reducers/admin.reducer';
+import {IUserWithId} from "../../../src/common_types/interfaces/User";
 
 export const createUser: (user: IUserWithId) => CreateUserAction = (user: IUserWithId) => ({
   type: CREATE_USER,
