@@ -1,6 +1,6 @@
 import { ReviewType } from "./Review";
 import { IQuestion } from "./Question";
-import {IUser, IUserWithId} from "./User";
+import { IUserWithId } from "./User";
 
 /** Шаблон теста */
 export interface IForm {

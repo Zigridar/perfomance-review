@@ -7,6 +7,7 @@ import { APIPath } from './APIPath';
 import { getConfig } from './config';
 import { dbConnect } from './db/connect';
 import { createUserIfNotExists } from './db/models/User';
+import { datamocks } from './mocks/datamocks';
 import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
 import formRouter from './routes/form.route';
@@ -59,6 +60,10 @@ dbConnect(config.MONGO_URI)
       .then(user => {
         if (user)
           console.info(`User with login ${user.login} was successfully created`)
+
+        datamocks().then(() => {
+          console.log("data mocks successfully. I hope")
+        })
       })
   })
   .catch((err: Error) => {
