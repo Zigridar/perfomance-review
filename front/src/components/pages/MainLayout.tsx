@@ -16,7 +16,7 @@ const MainLayout: React.FC<Props> = (props) => {
 
     return (
       <Layout className={'full-height'}>
-        <Header/>
+        <Header style={{ backgroundColor: '#273241' }} />
         <Layout>
           <Sider width={sideWidth} theme={"light"}>
             {sidebarContent}
