@@ -15,7 +15,7 @@ const perfomanveReviewRouter = (jwtSecret: string) => {
     router.get(
         '/',
         [
-            // auth(jwtSecret)
+            auth(jwtSecret)
         ],
         async (req: express.Request, res: express.Response) => {
             try {
@@ -39,7 +39,7 @@ const perfomanveReviewRouter = (jwtSecret: string) => {
     router.put(
         '/',
         [
-            // auth(jwtSecret),
+            auth(jwtSecret),
             check('name', 'name is empty').exists().notEmpty(),
             check('dateOfOneToOne', 'dateOfOneToOne is empty').exists().notEmpty()
         ],
@@ -83,7 +83,7 @@ const perfomanveReviewRouter = (jwtSecret: string) => {
     router.post(
         '/',
         [
-            // auth(jwtSecret),
+            auth(jwtSecret),
             check('id', 'id is empty').exists().notEmpty(),
             check('name', 'name is empty').exists().notEmpty(),
             check('dateOfOneToOne', 'dateOfOneToOne is empty').exists().notEmpty()
@@ -134,7 +134,7 @@ const perfomanveReviewRouter = (jwtSecret: string) => {
     router.delete(
         '/',
         [
-            // auth(jwtSecret),
+            auth(jwtSecret),
             check('id').exists().notEmpty()
         ],
         async (req: express.Request<ParamsDictionary, any, IPerfomanceReviewWithId>, res: express.Response) => {

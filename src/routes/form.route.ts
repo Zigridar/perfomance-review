@@ -62,7 +62,7 @@ const formRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
     router.get(
         '/',
         [
-            // auth(jwtSecret)
+            auth(jwtSecret)
         ],
         async (req: express.Request<any, any, any, FormQuery>, res: express.Response) => {
             try {
