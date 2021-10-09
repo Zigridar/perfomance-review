@@ -4,12 +4,12 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {APIPath} from '../../../src/APIPath';
 import {IUserMessage} from '../../../src/common_types/API';
-import {IUser, IUserWithId} from '../../../src/common_types/ModelTypes';
 import useHttp from '../hooks/useHttp.hook';
 import {createUser, deleteUser, editUser} from '../redux/ActionCreators';
 import {CreateUserAction, DeleteUserAction, EditUserAction} from '../redux/reducers/admin.reducer';
 import {RootState} from '../redux/store';
 import UserForm from "./UserForm";
+import {IUser, IUserWithId} from "../../../src/common_types/interfaces/User";
 
 /** State props */
 interface StateProps {

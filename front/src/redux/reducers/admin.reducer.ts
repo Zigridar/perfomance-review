@@ -1,4 +1,4 @@
-import {IUserWithId} from '../../../../src/common_types/ModelTypes';
+import {IUserWithId} from "../../../../src/common_types/interfaces/User";
 
 export const CREATE_USER = 'CREATE_USER';
 export const EDIT_USER = 'EDIT_USER';

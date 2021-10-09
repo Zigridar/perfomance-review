@@ -28,9 +28,7 @@ export const AuthPage: React.FC<IAuthPageProps> = (props: IAuthPageProps) => {
       justify={'space-around'}
       align={'middle'}
     >
-      <Col
-        span={6}
-      >
+      <Col span={6}>
         <Card
           bodyStyle={{
             backgroundColor: '#f1fdff'
@@ -41,13 +39,6 @@ export const AuthPage: React.FC<IAuthPageProps> = (props: IAuthPageProps) => {
             justify={'space-around'}
             align={'middle'}
           >
-            <Avatar
-              style={{
-                justifyContent: 'center'
-              }}
-              size={150}
-              src={logo}
-            />
             <Form
               form={form}
               style={{

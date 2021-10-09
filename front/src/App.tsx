@@ -1,5 +1,4 @@
 import 'antd/dist/antd.css';
-import {message} from 'antd';
 import React, {useState} from 'react';
 import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
@@ -13,7 +12,7 @@ import Routes from './Routes';
 export const App = () => {
 
   /** is user authenticated now? **/
-  const [isAuth, setAuth] = useState<boolean>(false); //todo fix auth bug
+  const [isAuth, setAuth] = useState<boolean>(true);
 
   /** is user admin */
   const [admin, setAdmin] = useState<boolean>(false);
