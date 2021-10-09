@@ -1,6 +1,10 @@
-import React, {ReactNode, useState} from "react";
+import React, { ReactNode, useState } from "react";
 import MainLayout from "./MainLayout";
-import {Menu, Tabs} from "antd";
+import CustomTable from "../Table";
+import { IForm } from "../../../../src/common_types/interfaces/Form";
+import { ReviewType, ATTESTATION, AROUND } from "../../../../src/common_types/interfaces/Review";
+import { IReviewTag, getReviewTag } from "../../constants/ReviewTags";
+import { Menu, Tabs, Tag } from "antd";
 
 const {TabPane} = Tabs
 
@@ -52,6 +56,59 @@ const MainPage: React.FC = () => {
     }
   ]
 
+  const columns = [
+    {
+      dataIndex: 'number',
+      width: '5%',
+      title: '№',
+    },
+    {
+      dataIndex: 'name',
+      width: '40%',
+      title: 'Название',
+    },
+    {
+      dataIndex: 'date',
+      width: '20%',
+      title: 'Дата',
+
+    },
+    {
+      dataIndex: 'reviews',
+      width: '30%',
+      title: 'Разделы',
+      render: (reviews: Array<IReviewTag>) => (
+        <>
+          {reviews.map((review: IReviewTag) => (
+            <Tag color={review.color}>{review.title}</Tag>
+          ))}
+        </>
+      )
+    },
+  ];
+
+
+  // todo
+  const dataSource = [
+    {
+      key: '1',
+      number: '1',
+      name: 'Вопрос 1',
+      date: '21.10.2021',
+      // todo
+      themes: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
+    },
+    {
+      key: '2',
+      number: '2',
+      name: 'Вопрос 2',
+      date: '22.10.2021',
+      // todo
+      themes: [AROUND].map((type: ReviewType) => getReviewTag(type)),
+    },
+  ];
+
+
   const onMenuClick = (index: number) => setCurrent(index)
 
   return (
@@ -72,6 +129,9 @@ const MainPage: React.FC = () => {
           )
         })}
       </Tabs>
+      <div>
+        <CustomTable loading={true} columns={columns} dataSource={dataSource} />
+      </div>
     </MainLayout>
   )
 }
