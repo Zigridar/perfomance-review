@@ -1,6 +1,5 @@
 import {DeleteOutlined, UserAddOutlined} from '@ant-design/icons';
 import {Checkbox, Form, FormInstance, Modal, Table} from 'antd';
-import moment from 'moment';
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {APIPath} from '../../../src/APIPath';
@@ -10,7 +9,7 @@ import useHttp from '../hooks/useHttp.hook';
 import {createUser, deleteUser, editUser} from '../redux/ActionCreators';
 import {CreateUserAction, DeleteUserAction, EditUserAction} from '../redux/reducers/admin.reducer';
 import {RootState} from '../redux/store';
-import UserForm, {IFormUser} from './UserForm';
+import UserForm from "./UserForm";
 
 /** State props */
 interface StateProps {
@@ -34,7 +33,6 @@ const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => 
     const tableUser: ITableUser = {
       ...user,
       key: index.toString(),
-      expDate: moment(user.expirationDate)
     }
     return tableUser;
   })
@@ -48,7 +46,7 @@ const mapDispatchToProps: DispatchProps = {
 
 type UserTableProps = OwnProps & StateProps & DispatchProps
 
-interface ITableUser extends IFormUser {
+interface ITableUser extends IUserWithId {
   key: string;
 }
 
@@ -101,7 +99,7 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
 
   const [visible, setVisible] = useState<boolean>(false);
 
-  const [user, setUser] = useState<IFormUser>(null);
+  const [user, setUser] = useState<IUserWithId>(null);
 
   const [isCreate, setCreate] = useState<boolean>(false);
 
@@ -111,7 +109,7 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
 
   const { request, loading } = useHttp();
 
-  const [form]: [FormInstance<IFormUser>] = Form.useForm<IFormUser>();
+  const [form]: [FormInstance<IUserWithId>] = Form.useForm<IUserWithId>();
 
   const onCancel= () => {
     form.resetFields();
@@ -148,8 +146,6 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
   const onOk = () => {
     form.validateFields()
       .then((editable) => {
-        editable.expirationDate = editable.expDate.toDate();
-        delete editable.expDate;
         setVisible(()=> false);
         if (user && user.id)
           editable.id = user.id;

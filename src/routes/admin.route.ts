@@ -64,15 +64,13 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
           } );
         }
 
-        const { login, password, name, expirationDate, admin, roomToken } = req.body;
+        const { login, password, name, admin } = req.body;
 
         const user = new User();
         user.login = login;
         user.password = await bcrypt.hash(password, 10);
         user.admin = !!admin;
         user.name = name;
-        user.expirationDate = expirationDate;
-        user.roomToken = roomToken;
         await user.save();
 
         const responseMessage: IUserMessage = {
@@ -112,7 +110,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
           } );
         }
 
-        const { id: _id, login, password, name, admin, expirationDate, roomToken } = req.body;
+        const { id: _id, login, password, name, admin } = req.body;
 
         /** find user by id */
         const user: Nullable<DocumentUser> = await User.findOne({ _id })
@@ -120,9 +118,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         if (user) {
           user.login = login;
           user.name = name;
-          user.expirationDate = expirationDate;
           user.admin = admin;
-          user.roomToken = roomToken;
           if (password) {
             user.password = await bcrypt.hash(password, 10);
           }

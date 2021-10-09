@@ -25,12 +25,8 @@ export const App = () => {
   const login = (credentials: AuthBody) => {
     request<ILoginMessage>(APIPath.auth, 'POST', credentials)
       .then((res) => {
-        if (res.roomToken) {
-          setAuth(() => true);
-          setAdmin(() => !!res.admin);
-        }
-        else
-          message.error('not auth', 2);
+        setAuth(() => true);
+        setAdmin(() => !!res.admin);
       })
   };
 

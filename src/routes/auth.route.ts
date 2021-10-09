@@ -52,10 +52,6 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
           return await res.status(400).json({ error: 'Invalid login or password' })
         }
 
-        if (user.expirationDate < new Date()) {
-          return await res.status(400).json({ error: 'login after expiration date!' })
-        }
-
         /** jwt token for auth user */
         const token = jwt.sign(
           { user },
@@ -67,7 +63,6 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         const responseMessage: ILoginMessage = {
           admin: user.admin,
           message: 'Successfully login',
-          roomToken: user.roomToken
         }
 
         /** set token to cookie */

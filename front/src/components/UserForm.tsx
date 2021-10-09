@@ -1,15 +1,10 @@
-import {Checkbox, DatePicker, Form, FormInstance, Input} from 'antd';
-import moment from 'moment';
+import {Checkbox, Form, FormInstance, Input} from 'antd';
 import React from 'react';
 import {IUserWithId} from '../../../src/common_types/ModelTypes';
 
 interface IUserFormProps {
-  user: IFormUser;
-  form: FormInstance<IFormUser>
-}
-
-export interface IFormUser extends IUserWithId {
-  expDate: moment.Moment
+  user: IUserWithId;
+  form: FormInstance<IUserWithId>
 }
 
 const layout = {
@@ -20,9 +15,6 @@ const layout = {
 const UserForm: React.FC<IUserFormProps> = (props) => {
 
   const {user, form} = props;
-
-  if (user && user.expirationDate)
-    user.expDate = moment(user.expirationDate);
 
   form.setFieldsValue(user)
 
@@ -52,22 +44,6 @@ const UserForm: React.FC<IUserFormProps> = (props) => {
         valuePropName='checked'
       >
         <Checkbox />
-      </Form.Item>
-      <Form.Item
-        name={'expDate'}
-        label={'expiration date'}
-        rules={[{ required: true, message: 'Expiration date required!' }]}
-      >
-        <DatePicker
-          format={'hh:mm DD.MM.YYYY'}
-          showTime
-        />
-      </Form.Item>
-      <Form.Item
-        name={'roomToken'}
-        label={'token'}
-      >
-        <Input />
       </Form.Item>
       {
         (!user || !user.id) &&

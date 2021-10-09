@@ -8,7 +8,6 @@ export interface AuthBody {
 
 export interface ILoginMessage {
   message: string;
-  roomToken: Nullable<string>;
   admin: boolean;
 }
 
