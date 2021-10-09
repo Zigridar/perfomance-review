@@ -4,7 +4,7 @@ import CustomTable from "../Table";
 import { IForm } from "../../../../src/common_types/interfaces/Form";
 import { ReviewType, ATTESTATION, AROUND } from "../../../../src/common_types/interfaces/Review";
 import { IReviewTag, getReviewTag } from "../../constants/ReviewTags";
-import { Menu, Tabs, Tag } from "antd";
+import { Menu, Tabs, Tag, Layout } from "antd";
 
 const {TabPane} = Tabs
 
@@ -36,6 +36,63 @@ const MainMenu: React.FC<MenuProps> = (props) => {
   )
 }
 
+const columns = [
+  {
+    dataIndex: 'number',
+    key: 'number',
+    width: '5%',
+    title: '№',
+  },
+  {
+    dataIndex: 'name',
+    key: 'name',
+    width: '40%',
+    title: 'Название',
+  },
+  {
+    dataIndex: 'date',
+    key: 'date',
+    width: '20%',
+    title: 'Дата',
+
+  },
+  {
+    dataIndex: 'tags',
+    key: 'tags',
+    width: '30%',
+    title: 'Разделы',
+    render: (tags: Array<IReviewTag>) => (
+      <>
+        {tags.map((tag: IReviewTag) => (
+          <Tag key={tag.type} color={tag.color}>{tag.title}</Tag>
+        ))}
+      </>
+    )
+  },
+];
+
+
+// todo
+const dataSource = [
+  {
+    key: '1',
+    number: '1',
+    name: 'Вопрос 1',
+    date: '21.10.2021',
+    // todo
+    tags: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
+  },
+  {
+    key: '2',
+    number: '2',
+    name: 'Вопрос 2',
+    date: '22.10.2021',
+    // todo
+    tags: [AROUND].map((type: ReviewType) => getReviewTag(type)),
+  },
+];
+
+
 const MainPage: React.FC = () => {
 
   const [current, setCurrent] = useState<number>(0);
@@ -44,8 +101,14 @@ const MainPage: React.FC = () => {
   const menuItems = [
     {
       title: 'Анкеты',
-      content: 'Анкеты'
-    },
+      content: 
+        <Layout.Content className="table-wrapper"  style={{
+          margin: 24,
+          borderRadius: 3,
+        }}>
+          <CustomTable loading={true} columns={columns} dataSource={dataSource} />
+        </Layout.Content>
+      },
     {
       title: 'Вопросы',
       content: 'Вопросы'
@@ -55,63 +118,6 @@ const MainPage: React.FC = () => {
       content: 'Администрирование'
     }
   ]
-
-  const columns = [
-    {
-      dataIndex: 'number',
-      key: 'number',
-      width: '5%',
-      title: '№',
-    },
-    {
-      dataIndex: 'name',
-      key: 'name',
-      width: '40%',
-      title: 'Название',
-    },
-    {
-      dataIndex: 'date',
-      key: 'date',
-      width: '20%',
-      title: 'Дата',
-
-    },
-    {
-      dataIndex: 'tags',
-      key: 'tags',
-      width: '30%',
-      title: 'Разделы',
-      render: (tags: Array<IReviewTag>) => (
-        <>
-          {tags.map((tag: IReviewTag) => (
-            <Tag color={tag.color}>{tag.title}</Tag>
-          ))}
-        </>
-      )
-    },
-  ];
-
-
-  // todo
-  const dataSource = [
-    {
-      key: '1',
-      number: '1',
-      name: 'Вопрос 1',
-      date: '21.10.2021',
-      // todo
-      tags: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
-    },
-    {
-      key: '2',
-      number: '2',
-      name: 'Вопрос 2',
-      date: '22.10.2021',
-      // todo
-      tags: [AROUND].map((type: ReviewType) => getReviewTag(type)),
-    },
-  ];
-
 
   const onMenuClick = (index: number) => setCurrent(index)
 
@@ -133,9 +139,6 @@ const MainPage: React.FC = () => {
           )
         })}
       </Tabs>
-      <div>
-        <CustomTable loading={true} columns={columns} dataSource={dataSource} />
-      </div>
     </MainLayout>
   )
 }
