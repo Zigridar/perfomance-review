@@ -101,10 +101,6 @@ const MainPage: React.FC = () => {
   const menuItems = [
     {
       title: 'Анкеты',
-<<<<<<< HEAD
-      content: <FormForm/>
-    },
-=======
       content: 
         <Layout.Content className="table-wrapper"  style={{
           margin: 24,
@@ -113,7 +109,6 @@ const MainPage: React.FC = () => {
           <CustomTable loading={true} columns={columns} dataSource={dataSource} />
         </Layout.Content>
       },
->>>>>>> component-TAble
     {
       title: 'Вопросы',
       content: 'Вопросы'
