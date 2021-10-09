@@ -6,6 +6,11 @@ import { ParamsDictionary } from "express-serve-static-core";
 import { Nullable } from "../common_types/TypeUtils";
 import PerfomanceReview, { DocumentPerfomanceReview, toIPerfomanceReviewWithId } from "../db/models/PerfomanceReview";
 import { IPerfomanceReview, IPerfomanceReviewWithId } from "../common_types/interfaces/PerfomanceReview";
+import User from "../db/models/User";
+
+type QueryPerfomanceReview = {
+    employeeId: string
+}
 
 const perfomanveReviewRouter = (jwtSecret: string) => {
 
@@ -17,17 +22,42 @@ const perfomanveReviewRouter = (jwtSecret: string) => {
         [
             auth(jwtSecret)
         ],
-        async (req: express.Request, res: express.Response) => {
+        async (req: express.Request<any, any, any, QueryPerfomanceReview>, res: express.Response) => {
             try {
-                const perfomanceReviews: DocumentPerfomanceReview[] = await PerfomanceReview.find().sort({ name: 1 });
+                const emplId = req.query.employeeId
 
-                const perfomanceReviewsToClient: IPerfomanceReviewWithId[] = perfomanceReviews.map(toIPerfomanceReviewWithId);
+                if (emplId) {
+                    const empl = await User.findById(emplId)
 
-                const responseMessage: IPerfomanceReviewsMessage = {
-                    perfomanceReviews: perfomanceReviewsToClient
+                    if (empl) {
+                        const perfomanceReviews: DocumentPerfomanceReview[] = await PerfomanceReview.find({ employee: empl }).sort({ name: 1 });
+
+                        const perfomanceReviewsToClient: IPerfomanceReviewWithId[] = perfomanceReviews.map(toIPerfomanceReviewWithId);
+
+                        const responseMessage: IPerfomanceReviewsMessage = {
+                            perfomanceReviews: perfomanceReviewsToClient
+                        }
+
+                        await res.json(responseMessage);
+
+                    } else {
+                        const responseMessage: IPerfomanceReviewsMessage = {
+                            perfomanceReviews: []
+                        }
+
+                        await res.json(responseMessage);
+                    }
+                } else {
+                    const perfomanceReviews: DocumentPerfomanceReview[] = await PerfomanceReview.find().sort({ name: 1 });
+
+                    const perfomanceReviewsToClient: IPerfomanceReviewWithId[] = perfomanceReviews.map(toIPerfomanceReviewWithId);
+
+                    const responseMessage: IPerfomanceReviewsMessage = {
+                        perfomanceReviews: perfomanceReviewsToClient
+                    }
+
+                    await res.json(responseMessage);
                 }
-
-                await res.json(responseMessage);
             } catch (e) {
                 await res.status(500).json({ message: 'something failed!' })
                 console.error(e);
