@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import {Document, model, Model, Schema} from 'mongoose';
-import {IUser, IUserWithId} from '../../common_types/ModelTypes';
-import {Nullable} from '../../common_types/TypeUtils';
-import {getConfig} from '../../config';
+import { Document, model, Model, Schema } from 'mongoose';
+import { IUser, IUserWithId } from '../../common_types/interfaces/User';
+import { Nullable } from '../../common_types/TypeUtils';
+import { getConfig } from '../../config';
 
 export type DocumentUser = Document & IUser;
 

@@ -1,12 +1,12 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import express, {Express} from 'express';
+import express, { Express } from 'express';
 import http from 'http';
 import path from 'path';
-import {APIPath} from './APIPath';
-import {getConfig} from './config';
-import {dbConnect} from './db/connect';
-import {createUserIfNotExists} from './db/models/User';
+import { APIPath } from './APIPath';
+import { getConfig } from './config';
+import { dbConnect } from './db/connect';
+import { createUserIfNotExists } from './db/models/User';
 import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
 import questionRouter from "./routes/question.route";

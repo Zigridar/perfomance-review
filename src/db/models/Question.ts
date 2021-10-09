@@ -1,5 +1,5 @@
-import {Document, model, Model, Schema} from 'mongoose';
-import {IAnswer, IQuestion, IQuestionWithId, QuestionType} from "../../common_types/ModelTypes";
+import { Document, model, Model, Schema } from 'mongoose';
+import { IQuestion, IQuestionWithId } from "../../common_types/interfaces/Question";
 
 export type DocumentQuestion = Document & IQuestion;
 

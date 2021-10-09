@@ -18,7 +18,7 @@ const admin = (req: express.Request, res: express.Response, next: () => void) =>
     }
   }
   catch (e) {
-    res.status(500).json({ message: 'something failed'} );
+    res.status(500).json({ message: 'something failed' });
   }
 
 }

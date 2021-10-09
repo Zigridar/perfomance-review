@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import {IUser} from '../common_types/ModelTypes';
+import { IUser } from '../common_types/interfaces/User';
 
 /**
  * Use the middleware for any routes (except auth.routes.ts)
