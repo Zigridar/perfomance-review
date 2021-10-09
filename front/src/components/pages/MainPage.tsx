@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from "react";
 import CustomTable from "../Table";
 import FormForm from "../FormForm";
 import MainLayout from "./MainLayout";
+import Questions from "../Questions";
 import { IForm } from "../../../../src/common_types/interfaces/Form";
 import { ReviewType, ATTESTATION, AROUND } from "../../../../src/common_types/interfaces/Review";
 import { IReviewTag, getReviewTag } from "../../constants/ReviewTags";
@@ -96,7 +97,7 @@ const dataSource = [
 
 const MainPage: React.FC = () => {
 
-  const [current, setCurrent] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1);
 
   //todo
   const menuItems = [
@@ -112,7 +113,7 @@ const MainPage: React.FC = () => {
       },
     {
       title: 'Вопросы',
-      content: 'Вопросы'
+      content: <Questions/>
     },
     {
       title: 'Администрирование',

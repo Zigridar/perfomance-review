@@ -7,7 +7,7 @@ const QuestionSchema: Schema<DocumentQuestion> = new Schema<DocumentQuestion>({
     text: { type: String, required: true },
     type: { type: String, required: true },
     answers: [Object],
-    variable: { type: String },
+    variable: { type: Boolean },
     scored: { type: Boolean }
 });
 
