@@ -21,7 +21,7 @@ const Routes: React.FC<IRoutesProps> = (props) => {
       {context.isAuth &&
       <Switch>
         <Route path="/main">
-          <MainLayout sideWidth={400} sidebarContent={null}/>
+          <MainPage/>
         </Route>
         <Redirect to="/main"/>
       </Switch>
