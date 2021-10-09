@@ -48,8 +48,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       admin,
       check('login', 'incorrect login').exists().notEmpty(),
       check('password', 'incorrect password').exists().notEmpty(),
-      check('name', 'incorrect mane').exists().notEmpty(),
-      check('expirationDate', 'incorrect mane').exists()
+      check('name', 'incorrect mane').exists().notEmpty()
     ],
     async (req: express.Request<ParamsDictionary, any, IUser>, res: express.Response) => {
       try {

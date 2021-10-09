@@ -1,4 +1,4 @@
-import {IUserWithId} from './ModelTypes';
+import {IQuestionWithId, IUserWithId} from './ModelTypes';
 import {Nullable} from './TypeUtils';
 
 export interface AuthBody {
@@ -13,6 +13,14 @@ export interface ILoginMessage {
 
 export interface IUsersMessage {
   users: IUserWithId[];
+}
+
+export interface IQuestionsMessage {
+  questions: IQuestionWithId[];
+}
+
+export interface IQuestionMessage {
+  question: IQuestionWithId;
 }
 
 export interface IUserMessage {

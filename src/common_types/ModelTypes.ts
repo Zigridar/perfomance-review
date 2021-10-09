@@ -24,19 +24,24 @@ export interface IAnswer {
   isCorrect: boolean;
 }
 
+export interface IQuestionWithId extends IQuestion {
+  id: string;
+}
+
 /** Вопрос */
 export interface IQuestion {
   text: string;
   type: QuestionType;
+  variable?: boolean;
   answers?: Array<IAnswer>;
   scored?: boolean;
 }
 
 /** Типы ревью */
-const SELF_ATTESTATION = 'SELF_ATTESTATION';
-const ATTESTATION = 'ATTESTATION';
-const AROUND = 'AROUND';
-const ONE_TO_ONE = 'ONE_TO_ONE';
+export const SELF_ATTESTATION = 'SELF_ATTESTATION';
+export const ATTESTATION = 'ATTESTATION';
+export const AROUND = 'AROUND';
+export const ONE_TO_ONE = 'ONE_TO_ONE';
 
 export type ReviewType = typeof SELF_ATTESTATION
 | typeof ATTESTATION
@@ -44,7 +49,7 @@ export type ReviewType = typeof SELF_ATTESTATION
 | typeof ONE_TO_ONE;
 
 /** Типы вопросов */
-const CLOSED = 'CLOSED';
-const ALTERNATIVE = 'ALTERNATIVE';
+export const CLOSED = 'CLOSED';
+export const OPEN = 'OPEN';
 
-export type QuestionType = typeof CLOSED | typeof ALTERNATIVE;
+export type QuestionType = typeof CLOSED | typeof OPEN;
