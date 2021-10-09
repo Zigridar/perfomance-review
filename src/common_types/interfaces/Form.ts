@@ -1,6 +1,6 @@
 import { ReviewType } from "./Review";
 import { IQuestion } from "./Question";
-import { IUserWithId } from "./User";
+import {IUser, IUserWithId} from "./User";
 
 /** Шаблон теста */
 export interface IForm {
@@ -8,4 +8,9 @@ export interface IForm {
     type: ReviewType;
     questions: Array<IQuestion>;
     author: IUserWithId;
+    archived: Boolean;
+}
+
+export interface IFormWithId extends IForm {
+    id: string;
 }
