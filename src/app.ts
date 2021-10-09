@@ -9,6 +9,7 @@ import { dbConnect } from './db/connect';
 import { createUserIfNotExists } from './db/models/User';
 import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
+import perfomanveReviewRouter from './routes/perfomance-review.route';
 import questionRouter from "./routes/question.route";
 
 /** app config */
@@ -32,6 +33,9 @@ app.use(APIPath.auth, authRouter(config.JWT_SECRET));
 app.use(APIPath.admin.root, adminRouter(config.JWT_SECRET));
 
 app.use(APIPath.question, questionRouter(config.JWT_SECRET));
+
+/** set perfomance review router */
+app.use(APIPath.performanceReview, perfomanveReviewRouter(config.JWT_SECRET));
 
 /** Production mode **/
 if (config.MODE === 'production') {

@@ -1,6 +1,7 @@
 import { IQuestionWithId } from './interfaces/Question';
 import { IUserWithId } from './interfaces/User';
 import { IFormWithId } from "./interfaces/Form";
+import { IPerfomanceReviewWithId } from './interfaces/PerfomanceReview';
 
 export interface AuthBody {
   login: string;
@@ -34,4 +35,12 @@ export interface IFormMessage {
 
 export interface IFormsMessage {
   forms: IFormWithId[];
+}
+
+export interface IPerfomanceReviewsMessage {
+  perfomanceReviews: IPerfomanceReviewWithId[];
+}
+
+export interface IPerfomanceReviewMessage {
+  perfomanceReview: IPerfomanceReviewWithId;
 }

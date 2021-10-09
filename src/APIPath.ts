@@ -4,5 +4,6 @@ export const APIPath = {
     root: '/admin',
     user: '/user'
   },
-  question: '/question'
+  question: '/question',
+  performanceReview: '/perfomance-review'
 } as const;
