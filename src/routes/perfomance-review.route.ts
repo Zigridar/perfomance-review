@@ -9,7 +9,7 @@ import { IPerfomanceReview, IPerfomanceReviewWithId } from "../common_types/inte
 import User from "../db/models/User";
 
 type QueryPerfomanceReview = {
-    employeeId: string
+    employeeId?: string
 }
 
 const perfomanveReviewRouter = (jwtSecret: string) => {
