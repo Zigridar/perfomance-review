@@ -1,5 +1,5 @@
-import {Document, model, Model, Schema} from 'mongoose';
-import {IForm} from "../../common_types/ModelTypes";
+import { Document, model, Model, Schema } from 'mongoose';
+import { IForm } from "../../common_types/interfaces/Form";
 
 export type DocumentForm = Document & IForm;
 

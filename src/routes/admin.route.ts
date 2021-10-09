@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
-import express, {Router} from 'express';
-import {ParamsDictionary} from 'express-serve-static-core';
-import {check, validationResult} from 'express-validator';
-import {APIPath} from '../APIPath';
-import {IUserMessage, IUsersMessage} from '../common_types/API';
-import {IUser, IUserWithId} from '../common_types/ModelTypes';
-import {Nullable} from '../common_types/TypeUtils';
-import User, {DocumentUser, toIUserWithId} from '../db/models/User';
+import express, { Router } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { check, validationResult } from 'express-validator';
+import { APIPath } from '../APIPath';
+import { IUserMessage, IUsersMessage } from '../common_types/API';
+import { IUser, IUserWithId } from '../common_types/interfaces/User';
+import { Nullable } from '../common_types/TypeUtils';
+import User, { DocumentUser, toIUserWithId } from '../db/models/User';
 import admin from '../middleware/admin.middleware';
 import auth from '../middleware/auth.middleware';
 
@@ -57,10 +57,10 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
         /** if it is empty continue */
         if (!errors.isEmpty()) {
-          return res.status(400).json( {
+          return res.status(400).json({
             errors: errors.array(),
             message: 'incorrect data'
-          } );
+          });
         }
 
         const { login, password, name, admin, leader } = req.body;
@@ -104,10 +104,10 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
         /** if it is empty continue */
         if (!errors.isEmpty()) {
-          return res.status(400).json( {
+          return res.status(400).json({
             errors: errors.array(),
             message: 'incorrect data'
-          } );
+          });
         }
 
         const { id: _id, login, password, name, admin, leader } = req.body;
@@ -156,10 +156,10 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
         /** if it is empty continue */
         if (!errors.isEmpty()) {
-          return res.status(400).json( {
+          return res.status(400).json({
             errors: errors.array(),
             message: 'incorrect data'
-          } );
+          });
         }
 
         const { id: _id } = req.body;
@@ -168,7 +168,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
         if (user) {
           const responseMessage: IUserMessage = {
-            user:toIUserWithId(user)
+            user: toIUserWithId(user)
           }
           await user.delete();
           await res.json(responseMessage);

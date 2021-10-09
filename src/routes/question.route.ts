@@ -1,15 +1,11 @@
-import express, {Router} from "express";
+import express, { Router } from "express";
 import auth from "../middleware/auth.middleware";
-import Question, {DocumentQuestion, toIQuestionWithId} from "../db/models/Question";
-import {IQuestion, IQuestionWithId, IUser, IUserWithId} from "../common_types/ModelTypes";
-import {IQuestionMessage, IQuestionsMessage, IUserMessage} from "../common_types/API";
-import {check, validationResult} from "express-validator";
-import {ParamsDictionary} from "express-serve-static-core";
-import User, {DocumentUser, toIUserWithId} from "../db/models/User";
-import {APIPath} from "../APIPath";
-import admin from "../middleware/admin.middleware";
-import {Nullable} from "../common_types/TypeUtils";
-import bcrypt from "bcrypt";
+import Question, { DocumentQuestion, toIQuestionWithId } from "../db/models/Question";
+import { IQuestion, IQuestionWithId } from "../common_types/interfaces/Question";
+import { IQuestionMessage, IQuestionsMessage, IUserMessage } from "../common_types/API";
+import { check, validationResult } from "express-validator";
+import { ParamsDictionary } from "express-serve-static-core";
+import { Nullable } from "../common_types/TypeUtils";
 
 const questionRouter = (jwtSecret: string) => {
 
@@ -23,7 +19,7 @@ const questionRouter = (jwtSecret: string) => {
         ],
         async (req: express.Request, res: express.Response) => {
             try {
-                const questions: DocumentQuestion[] = await Question.find().sort({name: 1});
+                const questions: DocumentQuestion[] = await Question.find().sort({ name: 1 });
 
                 const questionToClient: IQuestionWithId[] = questions.map(toIQuestionWithId);
 
@@ -33,7 +29,7 @@ const questionRouter = (jwtSecret: string) => {
 
                 await res.json(responseMessage);
             } catch (e) {
-                await res.status(500).json({message: 'something failed!'})
+                await res.status(500).json({ message: 'something failed!' })
                 console.error(e);
             }
         }
@@ -59,7 +55,7 @@ const questionRouter = (jwtSecret: string) => {
                     });
                 }
 
-                const {text, type, answers, variable, scored} = req.body;
+                const { text, type, answers, variable, scored } = req.body;
 
                 const question = new Question();
                 question.text = text;
@@ -77,7 +73,7 @@ const questionRouter = (jwtSecret: string) => {
 
             } catch (e: any) {
                 console.error(e);
-                await res.status(500).json({error: `can\`t save user, ${e.message}`});
+                await res.status(500).json({ error: `can\`t save user, ${e.message}` });
             }
         }
     );
@@ -102,9 +98,9 @@ const questionRouter = (jwtSecret: string) => {
                     });
                 }
 
-                const {id: _id, text, type, answers, variable, scored} = req.body;
+                const { id: _id, text, type, answers, variable, scored } = req.body;
 
-                const question: Nullable<DocumentQuestion> = await Question.findOne({_id});
+                const question: Nullable<DocumentQuestion> = await Question.findOne({ _id });
 
                 if (question) {
                     question.text = text;
@@ -121,11 +117,11 @@ const questionRouter = (jwtSecret: string) => {
 
                     await res.json(responseMessage);
                 } else {
-                    await res.status(400).json({message: 'question not found'});
+                    await res.status(400).json({ message: 'question not found' });
                 }
 
             } catch (e: any) {
-                await res.status(500).json({error: `can\`t update question, ${e.message}`});
+                await res.status(500).json({ error: `can\`t update question, ${e.message}` });
             }
         }
     );
@@ -142,10 +138,10 @@ const questionRouter = (jwtSecret: string) => {
 
                 /** if it is empty continue */
                 if (!errors.isEmpty()) {
-                    return res.status(400).json( {
+                    return res.status(400).json({
                         errors: errors.array(),
                         message: 'incorrect data'
-                    } );
+                    });
                 }
 
                 const { id: _id } = req.body;
@@ -165,7 +161,7 @@ const questionRouter = (jwtSecret: string) => {
 
             }
             catch (e: any) {
-                await res.status(500).json({ error: `can\` delete question, ${e.message}`});
+                await res.status(500).json({ error: `can\` delete question, ${e.message}` });
             }
         }
     );

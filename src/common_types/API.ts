@@ -1,5 +1,5 @@
-import {IQuestionWithId, IUserWithId} from './ModelTypes';
-import {Nullable} from './TypeUtils';
+import { IQuestionWithId } from './interfaces/Question';
+import { IUserWithId } from './interfaces/User';
 
 export interface AuthBody {
   login: string;

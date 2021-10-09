@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
-import express, {Router} from 'express';
-import {ParamsDictionary} from 'express-serve-static-core';
-import {check, validationResult} from 'express-validator';
+import express, { Router } from 'express';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import {AuthBody, ILoginMessage} from '../common_types/API';
-import {Nullable} from '../common_types/TypeUtils';
-import User, {DocumentUser} from '../db/models/User';
+import { AuthBody, ILoginMessage } from '../common_types/API';
+import { Nullable } from '../common_types/TypeUtils';
+import User, { DocumentUser } from '../db/models/User';
 
 const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
@@ -29,10 +29,10 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
 
         /** if it is empty continue login */
         if (!errors.isEmpty()) {
-          return res.status(400).json( {
+          return res.status(400).json({
             errors: errors.array(),
             message: 'incorrect login data'
-          } );
+          });
         }
 
         /** extract "login" and "password" data from request body */
@@ -42,7 +42,7 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         const user: Nullable<DocumentUser> = await User.findOne({ login });
 
         if (!user) {
-          return await res.status(400).json({ error:'User not found' });
+          return await res.status(400).json({ error: 'User not found' });
         }
 
         /** check password with bcrypt */
@@ -66,7 +66,7 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         }
 
         /** set token to cookie */
-        await res.cookie('token', token,{
+        await res.cookie('token', token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production'
         }).json(responseMessage);
