@@ -9,7 +9,6 @@ import {dbConnect} from './db/connect';
 import {createUserIfNotExists} from './db/models/User';
 import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
-import socketController from './socket/socketController';
 import questionRouter from "./routes/question.route";
 
 /** app config */
