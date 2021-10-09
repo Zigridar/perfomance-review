@@ -59,28 +59,32 @@ const MainPage: React.FC = () => {
   const columns = [
     {
       dataIndex: 'number',
+      key: 'number',
       width: '5%',
       title: '№',
     },
     {
       dataIndex: 'name',
+      key: 'name',
       width: '40%',
       title: 'Название',
     },
     {
       dataIndex: 'date',
+      key: 'date',
       width: '20%',
       title: 'Дата',
 
     },
     {
-      dataIndex: 'reviews',
+      dataIndex: 'tags',
+      key: 'tags',
       width: '30%',
       title: 'Разделы',
-      render: (reviews: Array<IReviewTag>) => (
+      render: (tags: Array<IReviewTag>) => (
         <>
-          {reviews.map((review: IReviewTag) => (
-            <Tag color={review.color}>{review.title}</Tag>
+          {tags.map((tag: IReviewTag) => (
+            <Tag color={tag.color}>{tag.title}</Tag>
           ))}
         </>
       )
@@ -96,7 +100,7 @@ const MainPage: React.FC = () => {
       name: 'Вопрос 1',
       date: '21.10.2021',
       // todo
-      themes: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
+      tags: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
     },
     {
       key: '2',
@@ -104,7 +108,7 @@ const MainPage: React.FC = () => {
       name: 'Вопрос 2',
       date: '22.10.2021',
       // todo
-      themes: [AROUND].map((type: ReviewType) => getReviewTag(type)),
+      tags: [AROUND].map((type: ReviewType) => getReviewTag(type)),
     },
   ];
 

@@ -15,7 +15,7 @@ interface DataSourceProps {
   number: string;
   name: string;
   date: string;
-  themes: Array<IReviewTag>,
+  tags: Array<IReviewTag>,
 }
 
 /** Own table props */
