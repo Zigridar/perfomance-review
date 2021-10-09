@@ -3,7 +3,6 @@ import cookieParser from 'cookie-parser';
 import express, {Express} from 'express';
 import http from 'http';
 import path from 'path';
-import {Server} from 'socket.io';
 import {APIPath} from './APIPath';
 import {getConfig} from './config';
 import {dbConnect} from './db/connect';
@@ -42,11 +41,6 @@ if (config.MODE === 'production') {
 
 /** run server */
 server.listen(config.PORT, () => {
-  /** init socket controller */
-  socketController(new Server(server, {
-    maxHttpBufferSize: 1e8
-  }));
-
   console.info(`Server startup ${new Date().toUTCString()}`);
 });
 
