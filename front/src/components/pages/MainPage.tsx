@@ -2,6 +2,7 @@ import React, {ReactNode, useState} from "react";
 import MainLayout from "./MainLayout";
 import {Menu, Tabs} from "antd";
 import FormForm from "../FormForm";
+import Questions from "../Questions";
 
 const {TabPane} = Tabs
 
@@ -35,7 +36,7 @@ const MainMenu: React.FC<MenuProps> = (props) => {
 
 const MainPage: React.FC = () => {
 
-  const [current, setCurrent] = useState<number>(0);
+  const [current, setCurrent] = useState<number>(1);
 
   //todo
   const menuItems = [
@@ -45,7 +46,7 @@ const MainPage: React.FC = () => {
     },
     {
       title: 'Вопросы',
-      content: 'Вопросы'
+      content: <Questions/>
     },
     {
       title: 'Администрирование',

@@ -9,6 +9,8 @@ import {
   LoadUsersAction
 } from './reducers/admin.reducer';
 import {IUserWithId} from "../../../src/common_types/interfaces/User";
+import {IQuestion} from "../../../src/common_types/interfaces/Question";
+import {CREATE_QUESTION, CreateQuestionAction, LOAD_QUESTIONS, LoadQuestionsAction} from "./reducers/question.reducer";
 
 export const createUser: (user: IUserWithId) => CreateUserAction = (user: IUserWithId) => ({
   type: CREATE_USER,
@@ -28,4 +30,14 @@ export const deleteUser: (userId: string) => DeleteUserAction = (userId: string)
 export const loadUsers: (users: IUserWithId[]) => LoadUsersAction = (users: IUserWithId[]) => ({
   users,
   type: LOAD_USERS
+})
+
+export const loadQuestions: (questions: IQuestion[]) => LoadQuestionsAction = (questions: IQuestion[]) => ({
+  type: LOAD_QUESTIONS,
+  questions
+})
+
+export const createQuestion: (question: IQuestion) => CreateQuestionAction = (question: IQuestion) => ({
+  type: CREATE_QUESTION,
+  question
 })
