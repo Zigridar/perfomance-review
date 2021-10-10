@@ -25,11 +25,7 @@ const FormForm: React.FC<FormProps> = (props) => {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
 
   return (
-    <div
-      style={{
-        padding: '30px'
-      }}
-    >
+    <>
       <Paragraph
         style={{
           fontSize: '35px'
@@ -128,7 +124,7 @@ const FormForm: React.FC<FormProps> = (props) => {
             Сохранить
           </Button>
       </Form>
-    </div>
+    </>
   )
 }
 
