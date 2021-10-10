@@ -11,6 +11,8 @@ import {
 import {IUserWithId} from "../../../src/common_types/interfaces/User";
 import {IQuestion} from "../../../src/common_types/interfaces/Question";
 import {CREATE_QUESTION, CreateQuestionAction, LOAD_QUESTIONS, LoadQuestionsAction} from "./reducers/question.reducer";
+import {IForm} from "../../../src/common_types/interfaces/Form";
+import {CREATE_FORM, CreateFormAction, LOAD_FORMS, LoadFormsAction} from "./reducers/form.reducer";
 
 export const createUser: (user: IUserWithId) => CreateUserAction = (user: IUserWithId) => ({
   type: CREATE_USER,
@@ -40,4 +42,14 @@ export const loadQuestions: (questions: IQuestion[]) => LoadQuestionsAction = (q
 export const createQuestion: (question: IQuestion) => CreateQuestionAction = (question: IQuestion) => ({
   type: CREATE_QUESTION,
   question
+})
+
+export const loadForms: (forms: IForm[]) => LoadFormsAction = (forms: IForm[]) => ({
+  type: LOAD_FORMS,
+  forms
+})
+
+export const createForm: (form: IForm) => CreateFormAction = (form: IForm) => ({
+  type: CREATE_FORM,
+  form
 })

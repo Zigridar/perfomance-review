@@ -1,19 +1,33 @@
 import React, {useState} from "react";
-import {Button, Checkbox, Form, Input, Typography} from "antd";
+import {Button, Form, Input, Select, Typography} from "antd";
 import {CloseOutlined, PlusOutlined} from "@ant-design/icons";
 import QuestionModal from "./pages/QuestionModal";
 import {IQuestion} from "../../../src/common_types/interfaces/Question";
+import {IForm} from "../../../src/common_types/interfaces/Form";
+import {AROUND, ATTESTATION, SELF_ATTESTATION} from "../../../src/common_types/interfaces/Review";
 
 const {Paragraph} = Typography;
 
 
 interface FormProps {
-
+  onCancel: () => void;
+  onOk: (form: IForm) => void;
 }
 
 const FormForm: React.FC<FormProps> = (props) => {
 
-  const [form] = Form.useForm();
+  const {onCancel, onOk} = props;
+
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+
+  const [form] = Form.useForm<IForm>(null);
+
+  const onSuccess = () => {
+    form.validateFields().then(res => {
+      res.questions = questions
+      onOk(res)
+    })
+  }
 
   const [visible, setVisible] = useState(false);
 
@@ -21,8 +35,6 @@ const FormForm: React.FC<FormProps> = (props) => {
     setVisible(false);
     setQuestions(selected);
   }
-
-  const [questions, setQuestions] = useState<IQuestion[]>([]);
 
   return (
     <>
@@ -39,7 +51,7 @@ const FormForm: React.FC<FormProps> = (props) => {
       >
         <Form.Item
           label={'Название'}
-          name={'name'}
+          name={'description'}
         >
           <Input
             style={{
@@ -49,10 +61,14 @@ const FormForm: React.FC<FormProps> = (props) => {
         </Form.Item>
         <Form.Item
           label={'Разделы'}
+          name={'type'}
+          valuePropName="checked"
         >
-          <Checkbox>Оценка 360</Checkbox>
-          <Checkbox>Аттестация</Checkbox>
-          <Checkbox>Самооценка</Checkbox>
+          <Select>
+            <Select.Option value={AROUND}>Оценка 360</Select.Option>
+            <Select.Option value={ATTESTATION}>Аттестация</Select.Option>
+            <Select.Option value={SELF_ATTESTATION}>Самооценка</Select.Option>
+          </Select>
         </Form.Item>
         <Form.Item
           label={'Вопросы'}
@@ -113,6 +129,7 @@ const FormForm: React.FC<FormProps> = (props) => {
           </div>
         </Form.Item>
           <Button
+            onClick={onSuccess}
             type={"primary"}
             style={{
               width: '30%',
@@ -123,6 +140,18 @@ const FormForm: React.FC<FormProps> = (props) => {
           >
             Сохранить
           </Button>
+        <Button
+          onClick={onCancel}
+          type={"primary"}
+          style={{
+            width: '30%',
+            backgroundColor: '#273241',
+            borderColor: '#273241',
+            fontWeight: "bold"
+          }}
+        >
+          Отмена
+        </Button>
       </Form>
     </>
   )

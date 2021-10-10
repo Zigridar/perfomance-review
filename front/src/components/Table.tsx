@@ -1,8 +1,6 @@
 import {Table} from 'antd';
-import React, {useState} from 'react';
-import { IReviewTag } from '../constants/ReviewTags';
-import {connect} from 'react-redux';
-import {APIPath} from '../../../src/APIPath';
+import React from 'react';
+import {IReviewTag} from '../constants/ReviewTags';
 
 interface ColumnProps {
   dataIndex: string;
@@ -38,14 +36,10 @@ const CustomTable: React.FC<OwnProps> = (props: OwnProps) => {
           y: 500,
           scrollToFirstRowOnChange: false
         }}
-        loading={false}
+        loading={props.loading}
         dataSource={props.dataSource}
         pagination={false}
         columns={props.columns}
-        // selection={{
-        //   ...props.selection,
-        //   type: 'checkbox',
-        // }}
       />
     </>
   );

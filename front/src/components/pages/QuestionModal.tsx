@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {Button, Modal, Table, Typography} from "antd";
-import {ATTESTATION, ReviewType, SELF_ATTESTATION} from "../../../../src/common_types/interfaces/Review";
+import {ReviewType} from "../../../../src/common_types/interfaces/Review";
 import {IQuestion, QuestionType} from "../../../../src/common_types/interfaces/Question";
 import CheckableTag from "antd/es/tag/CheckableTag";
+import {RootState} from "../../redux/store";
+import {connect} from "react-redux";
 
 const {Text} = Typography
 
-interface Props {
+interface OwnProps {
   visible: boolean;
   onSelect: (questions: IQuestion[]) => void;
   onCancel: () => void;
@@ -22,42 +24,56 @@ interface DataType {
 
 const tags = ['Самооценка', 'Оценка 360', 'Аттестация']
 
+
+interface StateProps {
+  questions: IQuestion[]
+}
+
+type Props = OwnProps & StateProps
+
+const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
+  questions: state.questions.questions
+})
+
+const columns = [
+  {
+    title: 'Вопрос',
+    dataIndex: 'question',
+  },
+  {
+    title: 'Тип',
+    dataIndex: 'questionType',
+  },
+  {
+    title: 'Типы',
+    dataIndex: 'types',
+  },
+];
+
 const QuestionModal: React.FC<Props> = (props) => {
 
-  const { visible, onSelect, onCancel } = props;
-
-  const columns = [
-    {
-      //todo
-      title: '41524',
-      dataIndex: 'index'
-    },
-    {
-      title: 'Вопрос',
-      dataIndex: 'question',
-    },
-    {
-      title: 'Тип',
-      dataIndex: 'questionType',
-    },
-    {
-      title: 'Типы',
-      dataIndex: 'types',
-    },
-  ];
-
-  const data: DataType[] = [
-    {
-      key: 1,
-      index: 1,
-      //todo
-      question: 'sadsd',
-      questionType: 'OPEN',
-      types: [SELF_ATTESTATION, ATTESTATION]
-    }
-  ]
+  const { visible, onSelect, onCancel, questions } = props;
 
   const [selected, setSelected] = useState<Set<React.Key>>(new Set());
+
+  const finishSelect = () => {
+    const res: IQuestion[] = []
+    selected.forEach(index => {
+      res.push(questions[Number(index)])
+    })
+    onSelect(res)
+  }
+
+  const data: DataType[] = questions.map((item, index) => {
+    return {
+      key: index,
+      //todo
+      types: [],
+      questionType: item.type,
+      question: item.text,
+      index
+    }
+  })
 
   return (
     <Modal
@@ -127,7 +143,7 @@ const QuestionModal: React.FC<Props> = (props) => {
           }}
         >
           <Button
-            onClick={() => onSelect([])}
+            onClick={finishSelect}
             type={"primary"}
             style={{
               backgroundColor: '#273241',
@@ -143,4 +159,4 @@ const QuestionModal: React.FC<Props> = (props) => {
   )
 }
 
-export default QuestionModal;
+export default connect<StateProps, never, OwnProps>(mapStateToProps)(QuestionModal);

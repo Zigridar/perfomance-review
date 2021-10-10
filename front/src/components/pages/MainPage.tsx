@@ -1,8 +1,8 @@
-import React, { ReactNode, useState } from "react";
+import React, {ReactNode, useState} from "react";
 import MainLayout from "./MainLayout";
+import {Menu, Tabs} from "antd";
 import Questions from "../Questions";
 import QuestionForm from "../QuestionForm";
-import { Menu, Tabs } from "antd";
 
 const {TabPane} = Tabs
 
@@ -36,7 +36,7 @@ const MainMenu: React.FC<MenuProps> = (props) => {
 
 const MainPage: React.FC = () => {
 
-  const [current, setCurrent] = useState<number>(1);
+  const [current, setCurrent] = useState<number>(0);
 
   //todo
   const menuItems = [

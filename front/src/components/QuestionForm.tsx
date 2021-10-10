@@ -1,14 +1,37 @@
-import React, {useState} from "react";
-import {Button, Tag, Layout, Typography} from "antd";
-import FormForm from "./FormForm";
+import React, {useEffect, useState} from "react";
+import {connect} from "react-redux";
+import {IForm} from "../../../src/common_types/interfaces/Form";
+import {CreateFormAction, LoadFormsAction} from "../redux/reducers/form.reducer";
+import {RootState} from "../redux/store";
+import {createForm, loadForms} from "../redux/ActionCreators";
 import CustomTable from "./Table";
-import { ReviewType, ATTESTATION, AROUND } from "../../../src/common_types/interfaces/Review";
-import { IReviewTag, getReviewTag } from "../constants/ReviewTags";
+import {Button, Layout, Tag, Typography} from "antd";
+import {getReviewTag, IReviewTag} from "../constants/ReviewTags";
+import useHttp from "../hooks/useHttp.hook";
+import {APIPath} from "../../../src/APIPath";
+import FormForm from "./FormForm";
 
-interface FormProps {
+const {Content} = Layout
 
+interface StateProps {
+  forms: IForm[];
 }
 
+interface DispatchProps {
+  loadForms: (forms: IForm[]) => LoadFormsAction;
+  createForm: (form: IForm) => CreateFormAction;
+}
+
+type Props = StateProps & DispatchProps
+
+const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
+  forms: state.forms.forms
+})
+
+const dispatchProps: DispatchProps = {
+  createForm,
+  loadForms
+}
 
 const columns = [
   {
@@ -28,7 +51,6 @@ const columns = [
     key: 'date',
     width: '20%',
     title: 'Дата',
-
   },
   {
     dataIndex: 'tags',
@@ -46,29 +68,38 @@ const columns = [
 ];
 
 
-// todo
-const dataSource = [
-  {
-    key: '1',
-    number: '1',
-    name: 'Вопрос 1',
-    date: '21.10.2021',
-    // todo
-    tags: [ATTESTATION, AROUND].map((type: ReviewType) => getReviewTag(type)),
-  },
-  {
-    key: '2',
-    number: '2',
-    name: 'Вопрос 2',
-    date: '22.10.2021',
-    // todo
-    tags: [AROUND].map((type: ReviewType) => getReviewTag(type)),
-  },
-];
+const QuestionForm: React.FC<Props> = (props) => {
 
-const QuestionForm: React.FC<FormProps> = (props) => {
+  const {loadForms, createForm, forms} = props;
+
+  const { request, loading } = useHttp();
+
+  useEffect(() => {
+    request<{ forms: IForm[] }>(APIPath.form)
+      .then(res => {
+        loadForms(res.forms);
+      })
+  }, [])
+
+  const data = forms.map((form, index) => {
+    return {
+      number: (index + 1).toString(),
+      key: index.toString(),
+      name: form.description,
+      date: 'Еще нет',
+      tags: [form.type].map(getReviewTag)
+    }
+  })
 
   const [openAddForm, setOpenAddForm] = useState(false);
+
+  const onSave = (form: IForm) => {
+    request<{ form: IForm }>(APIPath.form, 'PUT', form)
+      .then(res => {
+        createForm(res.form)
+        setOpenAddForm(false)
+      })
+  }
 
   return (
     <div
@@ -76,40 +107,40 @@ const QuestionForm: React.FC<FormProps> = (props) => {
         padding: '30px'
       }}
     >
-      {openAddForm ?  <FormForm />
-      : 
-      <>
-        <Typography.Title
-          style={{
-            fontSize: '35px'
-          }}
-        >
-          Анкеты
-        </Typography.Title>
-        <Layout.Content className="table-wrapper"  style={{
-          borderRadius: 3,
-          marginBottom: 24,
-          minHeight: 450,
-          backgroundColor: 'white',
-        }}>
-          <CustomTable loading={true} columns={columns} dataSource={dataSource} />
-        </Layout.Content>
-        <Button
-          type={"primary"}
-          style={{
-            width: '30%',
-            backgroundColor: '#273241',
-            borderColor: '#273241',
-            fontWeight: "bold"
-          }}
-          onClick={() => setOpenAddForm(true)}
-        >
-          Добавить
-        </Button>
+      {openAddForm ? <FormForm onCancel={() => setOpenAddForm(false)} onOk={onSave} />
+        :
+        <>
+          <Typography.Title
+            style={{
+              fontSize: '35px'
+            }}
+          >
+            Анкеты
+          </Typography.Title>
+          <Content className="table-wrapper"  style={{
+            borderRadius: 3,
+            marginBottom: 24,
+            minHeight: 450,
+            backgroundColor: 'white',
+          }}>
+            <CustomTable loading={loading} columns={columns} dataSource={data} />
+          </Content>
+          <Button
+            type={"primary"}
+            style={{
+              width: '30%',
+              backgroundColor: '#273241',
+              borderColor: '#273241',
+              fontWeight: "bold"
+            }}
+            onClick={() => setOpenAddForm(true)}
+          >
+            Добавить
+          </Button>
         </>
       }
     </div>
   )
 }
 
-export default QuestionForm
+export default connect<StateProps, DispatchProps>(mapStateToProps, dispatchProps)(QuestionForm);

@@ -31,7 +31,6 @@ const questionReducer: (state: QuestionState, action: QuestionAction) => Questio
         questions: [...action.questions]
       }
     case CREATE_QUESTION:
-      debugger
       return {
         ...state,
         questions: [...state.questions, action.question]
