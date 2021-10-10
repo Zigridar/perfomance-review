@@ -1,13 +1,12 @@
 import React, {ReactNode, useEffect, useState} from "react";
-import {Checkbox, Form, Input, Modal, Select, Table} from "antd";
-import {CLOSED, IQuestion, IQuestionWithId, OPEN} from "../../../src/common_types/interfaces/Question";
+import {Button, Checkbox, Layout, Form, Input, Modal, Radio, Table, Typography} from "antd";
+import {IQuestion, IQuestionWithId, OPEN} from "../../../src/common_types/interfaces/Question";
 import {CreateQuestionAction, LoadQuestionsAction} from "../redux/reducers/question.reducer";
 import {connect} from "react-redux";
 import {RootState} from "../redux/store";
 import {createQuestion, loadQuestions} from "../redux/ActionCreators";
 import useHttp from "../hooks/useHttp.hook";
 import {APIPath} from "../../../src/APIPath";
-import {PlusOutlined} from "@ant-design/icons";
 import {useForm} from "antd/es/form/Form";
 
 
@@ -74,6 +73,8 @@ const Questions: React.FC<Props> = (props) => {
   const {questions, createQuestion, loadQuestions} = props
 
   const [visible, setVisible] = useState<boolean>(false);
+  const [typeQuestion, setTypeQuestion] = useState<'open' | 'close'>('open');
+
 
   const { request, loading } = useHttp();
 
@@ -109,24 +110,39 @@ const Questions: React.FC<Props> = (props) => {
         padding: '30px'
       }}
     >
-      <div
+      <Typography.Title
         style={{
-          padding: '30px'
+          fontSize: '35px'
         }}
       >
-        <PlusOutlined
-          style={{
-            fontSize: '20px'
-          }}
-          onClick={beginCreate}
+        Вопросы
+      </Typography.Title>
+      <Layout.Content style={{
+            borderRadius: 3,
+            marginBottom: 24,
+            minHeight: 450,
+            backgroundColor: 'white',
+          }}>
+        <Table
+          columns={columns}
+          loading={loading}
+          pagination={false}
+          dataSource={questions}
         />
-      </div>
-      <Table
-        columns={columns}
-        loading={loading}
-        pagination={false}
-        dataSource={questions}
-      />
+      </Layout.Content>
+      <Button
+        type={"primary"}
+        style={{
+          width: '30%',
+          backgroundColor: '#273241',
+          borderColor: '#273241',
+          fontWeight: "bold",
+          marginTop: 36,
+        }}
+        onClick={() => setVisible(true)}
+      >
+        Добавить
+      </Button>
       <Modal
         title={'Создание вопроса'}
         visible={visible}
@@ -144,21 +160,21 @@ const Questions: React.FC<Props> = (props) => {
             <Input/>
           </Form.Item>
           <Form.Item
-            label={'Тип'}
+            label={'Тип вопроса'}
             name={'type'}
           >
-            <Select>
-              {/*<Select.Option value={CLOSED}>{CLOSED}</Select.Option>*/}
-              <Select.Option value={OPEN} >{OPEN}</Select.Option>
-            </Select>
+            <Radio.Group value={typeQuestion} onChange={(e) => setTypeQuestion(e.target.value)}>
+              <Radio value="open">Открытый</Radio>
+              <Radio value="close">С вариантами ответа</Radio>
+            </Radio.Group>
           </Form.Item>
-          <Form.Item
-            name={'variable'}
-            label={'variable'}
-            valuePropName="checked"
+          {typeQuestion === 'close' && <Form.Item
+            label={'Вопрос'}
+            name={'text'}
           >
-            <Checkbox/>
-          </Form.Item>
+            <Input/>
+          </Form.Item>}
+        
           <Form.Item
             label={'scored'}
             name={'scored'}
