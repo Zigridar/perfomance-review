@@ -1,4 +1,4 @@
-import {Table} from 'antd';
+import {Table, CheckboxProps} from 'antd';
 import React, {useState} from 'react';
 import { IReviewTag } from '../constants/ReviewTags';
 import {connect} from 'react-redux';
@@ -11,7 +11,7 @@ interface ColumnProps {
 }
 
 interface DataSourceProps {
-  key: string;
+  key: React.Key;
   number: string;
   name: string;
   date: string;
@@ -24,8 +24,8 @@ interface OwnProps {
   dataSource: Array<DataSourceProps>;
   columns: Array<ColumnProps>;
   selection?: {
-    onChange: Function;
-    getCheckboxProps: Function;
+    onChange?: (selectedRowKeys: React.Key[], selectedRows: DataSourceProps[]) => void,
+    getCheckboxProps?: (record: DataSourceProps) => Partial<Omit<CheckboxProps, "checked" | "defaultChecked">>,
   };
 }
 
@@ -42,10 +42,10 @@ const CustomTable: React.FC<OwnProps> = (props: OwnProps) => {
         dataSource={props.dataSource}
         pagination={false}
         columns={props.columns}
-        // selection={{
-        //   ...props.selection,
-        //   type: 'checkbox',
-        // }}
+        rowSelection={props.selection && {
+          ...props.selection,
+          type: 'checkbox',
+        }}
       />
     </>
   );
