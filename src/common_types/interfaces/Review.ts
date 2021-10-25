@@ -1,7 +1,7 @@
-import { IForm } from "./Form";
-import { IUser } from "./User";
-
 /** Типы ревью */
+import { IForm } from './Form';
+import { IUser } from './User';
+
 export const SELF_ATTESTATION = 'SELF_ATTESTATION';
 export const ATTESTATION = 'ATTESTATION';
 export const AROUND = 'AROUND';
@@ -14,8 +14,8 @@ export type ReviewType = typeof SELF_ATTESTATION
 
 
 export interface IEvent {
-    form: IForm,
-    employee: IUser,
-    type: ReviewType,
-    isFinished: boolean
+  form: IForm,
+  employee: IUser,
+  type: ReviewType,
+  isFinished: boolean
 }

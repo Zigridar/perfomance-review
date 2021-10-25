@@ -1,8 +1,6 @@
-import {Table, CheckboxProps} from 'antd';
-import React, {useState} from 'react';
+import { CheckboxProps, Table } from 'antd';
+import React from 'react';
 import { IReviewTag } from '../constants/ReviewTags';
-import {connect} from 'react-redux';
-import {APIPath} from '../../../src/APIPath';
 
 interface ColumnProps {
   dataIndex: string;
@@ -25,7 +23,7 @@ interface OwnProps {
   columns: Array<ColumnProps>;
   selection?: {
     onChange?: (selectedRowKeys: React.Key[], selectedRows: DataSourceProps[]) => void,
-    getCheckboxProps?: (record: DataSourceProps) => Partial<Omit<CheckboxProps, "checked" | "defaultChecked">>,
+    getCheckboxProps?: (record: DataSourceProps) => Partial<Omit<CheckboxProps, 'checked' | 'defaultChecked'>>,
   };
 }
 
@@ -36,7 +34,7 @@ const CustomTable: React.FC<OwnProps> = (props: OwnProps) => {
       <Table
         scroll={{
           y: 500,
-          scrollToFirstRowOnChange: false
+          scrollToFirstRowOnChange: false,
         }}
         loading={props.loading}
         dataSource={props.dataSource}

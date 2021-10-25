@@ -1,19 +1,13 @@
-import React, {ReactNode, useEffect, useState} from "react";
-import {Button, Checkbox, Layout, Form, Input, Modal, Radio, Table, Typography} from "antd";
-import {IQuestion, IQuestionWithId, OPEN} from "../../../src/common_types/interfaces/Question";
-import {CreateQuestionAction, LoadQuestionsAction} from "../redux/reducers/question.reducer";
-import {connect} from "react-redux";
-import {RootState} from "../redux/store";
-import {createQuestion, loadQuestions} from "../redux/ActionCreators";
-import useHttp from "../hooks/useHttp.hook";
-import {APIPath} from "../../../src/APIPath";
-import {useForm} from "antd/es/form/Form";
-
-
-
-interface QuestionsProps {
-
-}
+import { Button, Checkbox, Form, Input, Layout, Modal, Radio, Table, Typography } from 'antd';
+import { useForm } from 'antd/es/form/Form';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { APIPath } from '../../../src/APIPath';
+import { IQuestion, IQuestionWithId } from '../../../src/common_types/interfaces/Question';
+import useHttp from '../hooks/useHttp.hook';
+import { createQuestion, loadQuestions } from '../redux/ActionCreators';
+import { CreateQuestionAction, LoadQuestionsAction } from '../redux/reducers/question.reducer';
+import { RootState } from '../redux/store';
 
 interface StateProps {
   questions: IQuestion[];
@@ -24,7 +18,7 @@ interface DispatchProps {
   loadQuestions: (questions: IQuestion[]) => LoadQuestionsAction;
 }
 
-type Props = QuestionsProps & StateProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
 interface Column {
   title: string;
@@ -34,13 +28,13 @@ interface Column {
 }
 
 const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
-  questions: state.questions.questions
-})
+  questions: state.questions.questions,
+});
 
 const dispatchProps: DispatchProps = {
   createQuestion,
-  loadQuestions
-}
+  loadQuestions,
+};
 
 const columns: Array<Column> = [
   {
@@ -57,20 +51,20 @@ const columns: Array<Column> = [
             </div>
           ))}
         </>
-      )
-    }
+      );
+    },
   },
   {
     title: 'Тип',
     key: 'type',
-    dataIndex: 'type'
-  }
-]
+    dataIndex: 'type',
+  },
+];
 
 
 const Questions: React.FC<Props> = (props) => {
 
-  const {questions, createQuestion, loadQuestions} = props
+  const { questions, createQuestion, loadQuestions } = props;
 
   const [visible, setVisible] = useState<boolean>(false);
   const [typeQuestion, setTypeQuestion] = useState<'open' | 'close'>('open');
@@ -78,51 +72,47 @@ const Questions: React.FC<Props> = (props) => {
 
   const { request, loading } = useHttp();
 
-  const [form] = useForm<IQuestion>(null)
+  const [form] = useForm<IQuestion>(null);
 
   useEffect(() => {
     request<{ questions: IQuestionWithId[] }>(APIPath.question).then(res => {
-      console.log(res)
+      console.log(res);
       loadQuestions(res.questions);
-    })
-  }, []);
-
-  const beginCreate = () => {
-    setVisible(true)
-  }
+    });
+  }, [loadQuestions, request]);
 
   const cancel = () => {
-    setVisible(false)
-  }
+    setVisible(false);
+  };
 
   const onOk = () => {
     form.validateFields().then(question => {
-      return request<{ question: IQuestion }>(APIPath.question, 'PUT', question)
+      return request<{ question: IQuestion }>(APIPath.question, 'PUT', question);
     })
       .then(res => {
         createQuestion(res.question);
-      })
-  }
+      });
+  };
 
   return (
     <div
       style={{
-        padding: '30px'
+        padding: '30px',
       }}
     >
       <Typography.Title
         style={{
-          fontSize: '35px'
+          fontSize: '35px',
         }}
       >
         Вопросы
       </Typography.Title>
       <Layout.Content style={{
-            borderRadius: 3,
-            marginBottom: 24,
-            minHeight: 450,
-            backgroundColor: 'white',
-          }}>
+        borderRadius: 3,
+        marginBottom: 24,
+        minHeight: 450,
+        backgroundColor: 'white',
+      }}>
         <Table
           columns={columns}
           loading={loading}
@@ -131,12 +121,12 @@ const Questions: React.FC<Props> = (props) => {
         />
       </Layout.Content>
       <Button
-        type={"primary"}
+        type={'primary'}
         style={{
           width: '30%',
           backgroundColor: '#273241',
           borderColor: '#273241',
-          fontWeight: "bold",
+          fontWeight: 'bold',
           marginTop: 36,
         }}
         onClick={() => setVisible(true)}
@@ -151,7 +141,7 @@ const Questions: React.FC<Props> = (props) => {
       >
         <Form
           form={form}
-          layout={"vertical"}
+          layout={'vertical'}
         >
           <Form.Item
             label={'Вопрос'}
@@ -185,7 +175,7 @@ const Questions: React.FC<Props> = (props) => {
         </Form>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
-export default connect<StateProps, DispatchProps, QuestionsProps>(mapStateToProps, dispatchProps)(Questions);
+export default connect<StateProps, DispatchProps>(mapStateToProps, dispatchProps)(Questions);

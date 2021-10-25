@@ -1,6 +1,6 @@
-import {Checkbox, Form, FormInstance, Input} from 'antd';
+import { Checkbox, Form, FormInstance, Input } from 'antd';
 import React from 'react';
-import {IUserWithId} from "../../../src/common_types/interfaces/User";
+import { IUserWithId } from '../../../src/common_types/interfaces/User';
 
 interface IUserFormProps {
   user: IUserWithId;
@@ -14,15 +14,15 @@ const layout = {
 
 const UserForm: React.FC<IUserFormProps> = (props) => {
 
-  const {user, form} = props;
+  const { user, form } = props;
 
-  form.setFieldsValue(user)
+  form.setFieldsValue(user);
 
   const onFinish = () => {
     console.log(form.getFieldsValue());
-  }
+  };
 
-  return(
+  return (
     <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
       <Form.Item
         name={'name'}
@@ -56,7 +56,7 @@ const UserForm: React.FC<IUserFormProps> = (props) => {
         </Form.Item>
       }
     </Form>
-  )
-}
+  );
+};
 
 export default UserForm;

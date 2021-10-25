@@ -19,7 +19,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
     APIPath.admin.user,
     [
       auth(jwtSecret),
-      admin
+      admin,
     ],
     async (req: express.Request, res: express.Response) => {
       try {
@@ -28,17 +28,16 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         const usersToClient: IUserWithId[] = users.map(toIUserWithId);
 
         const responseMessage: IUsersMessage = {
-          users: usersToClient
-        }
+          users: usersToClient,
+        };
 
         await res.json(responseMessage);
-      }
-      catch (e) {
-        await res.status(500).json({ message: 'something failed!' })
+      } catch (e) {
+        await res.status(500).json({ message: 'something failed!' });
         console.error(e);
       }
-    }
-  )
+    },
+  );
 
   /** create user */
   router.put(
@@ -48,9 +47,9 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       admin,
       check('login', 'incorrect login').exists().notEmpty(),
       check('password', 'incorrect password').exists().notEmpty(),
-      check('name', 'incorrect mane').exists().notEmpty()
+      check('name', 'incorrect mane').exists().notEmpty(),
     ],
-    async (req: express.Request<ParamsDictionary, any, IUser>, res: express.Response) => {
+    async (req: express.Request<ParamsDictionary, never, IUser>, res: express.Response) => {
       try {
 
         const errors = validationResult(req.body);
@@ -59,7 +58,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         if (!errors.isEmpty()) {
           return res.status(400).json({
             errors: errors.array(),
-            message: 'incorrect data'
+            message: 'incorrect data',
           });
         }
 
@@ -74,16 +73,15 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         await user.save();
 
         const responseMessage: IUserMessage = {
-          user: toIUserWithId(user)
-        }
+          user: toIUserWithId(user),
+        };
 
         await res.json(responseMessage);
-      }
-      catch (e: any) {
+      } catch (e: any) {
         console.error(e);
         await res.status(500).json({ error: `can\`t save user, ${e.message}` });
       }
-    }
+    },
   );
 
   /** edit user */
@@ -96,7 +94,7 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       check('login', 'incorrect login').exists().notEmpty(),
       check('name', 'incorrect mane').exists().notEmpty(),
     ],
-    async (req: express.Request<ParamsDictionary, any, IUserWithId>, res: express.Response) => {
+    async (req: express.Request<ParamsDictionary, never, IUserWithId>, res: express.Response) => {
       try {
 
         const errors = validationResult(req.body);
@@ -105,14 +103,14 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         if (!errors.isEmpty()) {
           return res.status(400).json({
             errors: errors.array(),
-            message: 'incorrect data'
+            message: 'incorrect data',
           });
         }
 
-        const { id: _id, login, password, name, admin, leader } = req.body;
+        const { id: iD, login, password, name, admin, leader } = req.body;
 
         /** find user by id */
-        const user: Nullable<DocumentUser> = await User.findOne({ _id })
+        const user: Nullable<DocumentUser> = await User.findOne({ _id: iD });
 
         if (user) {
           user.login = login;
@@ -125,20 +123,18 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
           await user.save();
 
           const responseMessage: IUserMessage = {
-            user: toIUserWithId(user)
-          }
+            user: toIUserWithId(user),
+          };
 
           await res.json(responseMessage);
-        }
-        else {
+        } else {
           await res.status(400).json({ message: 'user not found' });
         }
 
-      }
-      catch (e: any) {
+      } catch (e: any) {
         await res.status(500).json({ error: `can\`t update user, ${e.message}` });
       }
-    }
+    },
   );
 
   /** delete user */
@@ -147,9 +143,9 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
     [
       auth(jwtSecret),
       admin,
-      check('id').exists().notEmpty()
+      check('id').exists().notEmpty(),
     ],
-    async (req: express.Request<ParamsDictionary, any, IUserWithId>, res: express.Response) => {
+    async (req: express.Request<ParamsDictionary, never, IUserWithId>, res: express.Response) => {
       try {
         const errors = validationResult(req.body);
 
@@ -157,33 +153,31 @@ const adminRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         if (!errors.isEmpty()) {
           return res.status(400).json({
             errors: errors.array(),
-            message: 'incorrect data'
+            message: 'incorrect data',
           });
         }
 
-        const { id: _id } = req.body;
+        const { id: iD } = req.body;
 
-        const user: Nullable<DocumentUser> = await User.findOne({ _id });
+        const user: Nullable<DocumentUser> = await User.findOne({ _id: iD });
 
         if (user) {
           const responseMessage: IUserMessage = {
-            user: toIUserWithId(user)
-          }
+            user: toIUserWithId(user),
+          };
           await user.delete();
           await res.json(responseMessage);
-        }
-        else {
+        } else {
           await res.status(400).json({ error: 'user not found' });
         }
 
-      }
-      catch (e: any) {
+      } catch (e: any) {
         await res.status(500).json({ error: `can\`t delete user, ${e.message}` });
       }
-    }
+    },
   );
 
   return router;
-}
+};
 
 export default adminRouter;

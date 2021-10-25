@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
-import {AuthBody} from '../../src/common_types/API';
-import {AuthPage} from './components/pages/AuthPage';
+import React, { useContext } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { AuthBody } from '../../src/common_types/API';
+import { AuthPage } from './components/pages/AuthPage';
 import MainPage from './components/pages/MainPage';
 import AuthContext from './context/AuthContext';
 
@@ -35,7 +35,7 @@ const Routes: React.FC<IRoutesProps> = (props) => {
         </Switch>
       }
     </>
-  )
-}
+  );
+};
 
 export default Routes;

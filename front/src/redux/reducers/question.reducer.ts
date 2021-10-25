@@ -1,4 +1,4 @@
-import {IQuestion} from "../../../../src/common_types/interfaces/Question";
+import { IQuestion } from '../../../../src/common_types/interfaces/Question';
 
 export const CREATE_QUESTION = 'CREATE_QUESTION';
 export const LOAD_QUESTIONS = 'LOAD_QUESTIONS';
@@ -18,8 +18,8 @@ export interface LoadQuestionsAction {
 }
 
 const initialState: QuestionState = {
-  questions: []
-}
+  questions: [],
+};
 
 export type QuestionAction = CreateQuestionAction | LoadQuestionsAction;
 
@@ -28,16 +28,16 @@ const questionReducer: (state: QuestionState, action: QuestionAction) => Questio
     case LOAD_QUESTIONS:
       return {
         ...state,
-        questions: [...action.questions]
-      }
+        questions: [...action.questions],
+      };
     case CREATE_QUESTION:
       return {
         ...state,
-        questions: [...state.questions, action.question]
-      }
+        questions: [...state.questions, action.question],
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default questionReducer
+export default questionReducer;

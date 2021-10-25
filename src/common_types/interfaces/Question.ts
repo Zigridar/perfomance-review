@@ -1,20 +1,20 @@
 /** Ответ */
 export interface IAnswer {
-    text: string;
-    isCorrect: boolean;
+  text: string;
+  isCorrect: boolean;
 }
 
 export interface IQuestionWithId extends IQuestion {
-    id: string;
+  id: string;
 }
 
 /** Вопрос */
 export interface IQuestion {
-    text: string;
-    type: QuestionType;
-    variable?: boolean;
-    answers?: Array<IAnswer>;
-    scored?: boolean;
+  text: string;
+  type: QuestionType;
+  variable?: boolean;
+  answers?: Array<IAnswer>;
+  scored?: boolean;
 }
 
 

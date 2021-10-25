@@ -1,15 +1,15 @@
-import {DeleteOutlined, UserAddOutlined} from '@ant-design/icons';
-import {Checkbox, Form, FormInstance, Modal, Table} from 'antd';
-import React, {useState} from 'react';
-import {connect} from 'react-redux';
-import {APIPath} from '../../../src/APIPath';
-import {IUserMessage} from '../../../src/common_types/API';
+import { DeleteOutlined, UserAddOutlined } from '@ant-design/icons';
+import { Checkbox, Form, FormInstance, Modal, Table } from 'antd';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { APIPath } from '../../../src/APIPath';
+import { IUserMessage } from '../../../src/common_types/API';
 import useHttp from '../hooks/useHttp.hook';
-import {createUser, deleteUser, editUser} from '../redux/ActionCreators';
-import {CreateUserAction, DeleteUserAction, EditUserAction} from '../redux/reducers/admin.reducer';
-import {RootState} from '../redux/store';
-import UserForm from "./UserForm";
-import {IUser, IUserWithId} from "../../../src/common_types/interfaces/User";
+import { createUser, deleteUser, editUser } from '../redux/ActionCreators';
+import { CreateUserAction, DeleteUserAction, EditUserAction } from '../redux/reducers/admin.reducer';
+import { RootState } from '../redux/store';
+import UserForm from './UserForm';
+import { IUser, IUserWithId } from '../../../src/common_types/interfaces/User';
 
 /** State props */
 interface StateProps {
@@ -33,18 +33,18 @@ const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => 
     const tableUser: ITableUser = {
       ...user,
       key: index.toString(),
-    }
+    };
     return tableUser;
-  })
-})
+  }),
+});
 
 const mapDispatchToProps: DispatchProps = {
   createUser,
   editUser,
-  deleteUser
-}
+  deleteUser,
+};
 
-type UserTableProps = OwnProps & StateProps & DispatchProps
+type UserTableProps = OwnProps & StateProps & DispatchProps;
 
 interface ITableUser extends IUserWithId {
   key: string;
@@ -52,11 +52,21 @@ interface ITableUser extends IUserWithId {
 
 const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
 
+  const { request, loading } = useHttp();
+
+  const deleteUser = (userId: string) => {
+    request(APIPath.admin.root + APIPath.admin.user, 'DELETE', { id: userId })
+      .then((withMessage) => {
+        if (withMessage.message)
+          props.deleteUser(userId);
+      });
+  };
+
   const columns = [
     {
       title: 'name',
       dataIndex: 'name',
-      width: '25%'
+      width: '25%',
     },
     {
       title: 'admin',
@@ -67,17 +77,17 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
           checked={value}
           disabled={true}
         />
-      )
+      ),
     },
     {
       title: 'login',
       dataIndex: 'login',
-      width: '20%'
+      width: '20%',
     },
     {
       title: 'room token',
       dataIndex: 'roomToken',
-      width: '20%'
+      width: '20%',
     },
     {
       title: 'expiration date',
@@ -85,16 +95,16 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
       width: '10%',
       render: (dateString: string) => {
         return new Date(dateString).toLocaleDateString();
-      }
+      },
     },
     {
       title: 'delete',
       width: '10%',
       dataIndex: 'id',
       render: (id: string) => {
-        return (<DeleteOutlined style={{fontSize: '1.5rem'}} onClick={() => deleteUser(id)} />)
-      }
-    }
+        return (<DeleteOutlined style={{ fontSize: '1.5rem' }} onClick={() => deleteUser(id)} />);
+      },
+    },
   ];
 
   const [visible, setVisible] = useState<boolean>(false);
@@ -107,17 +117,15 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
 
   const openModal = () => setVisible(() => true);
 
-  const { request, loading } = useHttp();
-
   const [form]: [FormInstance<IUserWithId>] = Form.useForm<IUserWithId>();
 
-  const onCancel= () => {
+  const onCancel = () => {
     form.resetFields();
     setUser(() => null);
     setVisible(() => false);
     setEdit(()=> false);
     setCreate(() => false);
-  }
+  };
 
   const finishCreateUser = (user: IUser) => {
     request<IUserMessage>(APIPath.admin.root + APIPath.admin.user, 'PUT', user)
@@ -129,19 +137,19 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
         console.error(e);
       })
       .finally(() => setCreate(() => false));
-  }
+  };
 
   const finishEditUser = (user: IUserWithId) => {
     request<IUserMessage>(APIPath.admin.root + APIPath.admin.user, 'POST', user)
       .then(edited => {
         if (edited.user)
-          props.editUser(edited.user)
+          props.editUser(edited.user);
       })
       .catch(e => {
-        console.error(e)
+        console.error(e);
       })
       .finally(() => setEdit(() => false));
-  }
+  };
 
   const onOk = () => {
     form.validateFields()
@@ -154,32 +162,24 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
       })
       .then(edited => {
         if (isCreate)
-          finishCreateUser(edited)
+          finishCreateUser(edited);
         else if (isEdit)
-          finishEditUser(edited)
+          finishEditUser(edited);
       })
-      .catch(e => console.error(e)) //todo
-  }
+      .catch(e => console.error(e)); //todo
+  };
 
   const beginCreateUser = () => {
     setUser(() => null);
     setCreate(() => true);
     openModal();
-  }
+  };
 
   const beginEditUser = (user: ITableUser) => {
     setUser(() => user);
     setEdit(() => true);
     openModal();
-  }
-
-  const deleteUser = (userId: string) => {
-    request(APIPath.admin.root + APIPath.admin.user, 'DELETE', { id: userId })
-      .then((withMessage) => {
-        if (withMessage.message)
-          props.deleteUser(userId);
-      });
-  }
+  };
 
   return (
     <>
@@ -195,19 +195,19 @@ const UserTable: React.FC<UserTableProps> = (props: UserTableProps) => {
       <Table
         scroll={{
           y: 500,
-          scrollToFirstRowOnChange: false
+          scrollToFirstRowOnChange: false,
         }}
         loading={loading || props.loading}
         onRow={(record) => {
           return {
             onDoubleClick: () => {
               if (!loading) {
-                beginEditUser(record)
+                beginEditUser(record);
               }
             },
             onContextMenu: event => {
-              event.preventDefault()
-            }
+              event.preventDefault();
+            },
           };
         }}
         pagination={false}

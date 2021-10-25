@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * Do http request with loading status
@@ -8,7 +8,7 @@ const useHttp = () => {
   /** loading status */
   const [loading, setLoading] = useState<boolean>(false);
 
-  const request = useCallback(async <T = any>(url: string, method: string = 'GET', body: any = null, headers: { [key: string]: string } = {}) => {
+  const request = useCallback(async <T = any>(url: string, method = 'GET', body: any = null, headers: { [key: string]: string } = {}) => {
     /** start loading */
     setLoading(() => true);
 
@@ -23,7 +23,7 @@ const useHttp = () => {
       const response: Response = await fetch(url, {
         method,
         body,
-        headers
+        headers,
       });
 
       /** result container */
@@ -31,21 +31,18 @@ const useHttp = () => {
 
       try {
         result = await response.json() as T;
-      }
-      catch {
-        console.warn('response without body')
+      } catch {
+        console.warn('response without body');
       }
 
       /** parse json data */
       return result;
-    }
-    catch (e) {
+    } catch (e) {
       console.error(e.message);
       throw e;
-    }
-    finally {
-     /** set loading status to false */
-     setLoading(() => false);
+    } finally {
+      /** set loading status to false */
+      setLoading(() => false);
     }
   }, []);
 

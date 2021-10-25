@@ -12,7 +12,7 @@ import adminRouter from './routes/admin.route';
 import authRouter from './routes/auth.route';
 import formRouter from './routes/form.route';
 import perfomanveReviewRouter from './routes/perfomance-review.route';
-import questionRouter from "./routes/question.route";
+import questionRouter from './routes/question.route';
 
 /** app config */
 const config = getConfig();
@@ -59,12 +59,12 @@ dbConnect(config.MONGO_URI)
     createUserIfNotExists()
       .then(user => {
         if (user)
-          console.info(`User with login ${user.login} was successfully created`)
+          console.info(`User with login ${user.login} was successfully created`);
 
         datamocks().then(() => {
-          console.log("data mocks successfully. I hope")
-        })
-      })
+          console.log('data mocks successfully. I hope');
+        });
+      });
   })
   .catch((err: Error) => {
     console.error('DB CONNECTION ERROR');

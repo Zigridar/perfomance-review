@@ -1,4 +1,4 @@
-import {IUser} from './ModelTypes';
+import { IUser } from './interfaces/User';
 
 declare global {
 

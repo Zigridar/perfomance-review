@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {Button, Modal, Table, Typography} from "antd";
-import {ReviewType} from "../../../../src/common_types/interfaces/Review";
-import {IQuestion, QuestionType} from "../../../../src/common_types/interfaces/Question";
-import CheckableTag from "antd/es/tag/CheckableTag";
-import {RootState} from "../../redux/store";
-import {connect} from "react-redux";
+import React, { useState } from 'react';
+import { Button, Modal, Table, Typography } from 'antd';
+import { ReviewType } from '../../../../src/common_types/interfaces/Review';
+import { IQuestion, QuestionType } from '../../../../src/common_types/interfaces/Question';
+import CheckableTag from 'antd/es/tag/CheckableTag';
+import { RootState } from '../../redux/store';
+import { connect } from 'react-redux';
 
-const {Text} = Typography
+const { Text } = Typography;
 
 interface OwnProps {
   visible: boolean;
@@ -22,18 +22,18 @@ interface DataType {
   index: number;
 }
 
-const tags = ['Самооценка', 'Оценка 360', 'Аттестация']
+const tags = ['Самооценка', 'Оценка 360', 'Аттестация'];
 
 
 interface StateProps {
   questions: IQuestion[]
 }
 
-type Props = OwnProps & StateProps
+type Props = OwnProps & StateProps;
 
 const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
-  questions: state.questions.questions
-})
+  questions: state.questions.questions,
+});
 
 const columns = [
   {
@@ -57,12 +57,12 @@ const QuestionModal: React.FC<Props> = (props) => {
   const [selected, setSelected] = useState<Set<React.Key>>(new Set());
 
   const finishSelect = () => {
-    const res: IQuestion[] = []
+    const res: IQuestion[] = [];
     selected.forEach(index => {
-      res.push(questions[Number(index)])
-    })
-    onSelect(res)
-  }
+      res.push(questions[Number(index)]);
+    });
+    onSelect(res);
+  };
 
   const data: DataType[] = questions.map((item, index) => {
     return {
@@ -71,9 +71,9 @@ const QuestionModal: React.FC<Props> = (props) => {
       types: [],
       questionType: item.type,
       question: item.text,
-      index
-    }
-  })
+      index,
+    };
+  });
 
   return (
     <Modal
@@ -83,27 +83,27 @@ const QuestionModal: React.FC<Props> = (props) => {
       footer={null}
       width={'700px'}
       bodyStyle={{
-        height: '600px'
+        height: '600px',
       }}
       centered={true}
     >
       <div
         style={{
-          position: "relative",
-          height: '100%'
+          position: 'relative',
+          height: '100%',
         }}
       >
         <div>
           <Text
             style={{
-              fontSize: '30px'
+              fontSize: '30px',
             }}
           >
             Вопросы
           </Text>
           {tags.map((tag, index) => {
 
-            const [check, setCheck] = useState(false)
+            const [check, setCheck] = useState(false);
 
             return (
               <CheckableTag
@@ -113,21 +113,21 @@ const QuestionModal: React.FC<Props> = (props) => {
               >
                 {tag}
               </CheckableTag>
-            )
+            );
           })}
         </div>
         <Table
           rowSelection={{
             onSelect: (item, selected) => {
               if (selected)
-                setSelected(prev => new Set(prev.add(item.key)))
+                setSelected(prev => new Set(prev.add(item.key)));
               else
                 setSelected(prev => {
-                  prev.delete(item.key)
-                  return new Set(prev)
-                })
+                  prev.delete(item.key);
+                  return new Set(prev);
+                });
             },
-            selectedRowKeys: Array.from(selected)
+            selectedRowKeys: Array.from(selected),
           }}
           showHeader={false}
           pagination={false}
@@ -138,13 +138,13 @@ const QuestionModal: React.FC<Props> = (props) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            position: "absolute",
-            bottom: '0px'
+            position: 'absolute',
+            bottom: '0px',
           }}
         >
           <Button
             onClick={finishSelect}
-            type={"primary"}
+            type={'primary'}
             style={{
               backgroundColor: '#273241',
               borderColor: '#273241',
@@ -156,7 +156,7 @@ const QuestionModal: React.FC<Props> = (props) => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
 export default connect<StateProps, never, OwnProps>(mapStateToProps)(QuestionModal);

@@ -9,24 +9,23 @@ const auth = (jwtSecret: string) => (req: express.Request, res: express.Response
 
   /** break if test request **/
   if (req.method === 'OPTIONS')
-    return next()
+    return next();
 
   try {
     /** parse token from authorization header **/
-    const token = req?.cookies?.token
+    const token = req?.cookies?.token;
 
     /** break if token non-valid **/
     if (!token)
-      return res.status(401).json('no authorization')
+      return res.status(401).json('no authorization');
 
     /** set user jwt object  to request **/
-    req.user = (jwt.verify(token, jwtSecret) as any).user as IUser
+    req.user = (jwt.verify(token, jwtSecret) as any).user as IUser;
     /** apply next handler **/
-    next()
+    next();
+  } catch (e) {
+    res.status(401).json('no authorization');
   }
-  catch (e) {
-    res.status(401).json('no authorization')
-  }
-}
+};
 
 export default auth;

@@ -19,19 +19,19 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       /** login validator **/
       check('login', 'incorrect login').exists().notEmpty(),
       /** password validator **/
-      check('password', 'incorrect password').exists().notEmpty()
+      check('password', 'incorrect password').exists().notEmpty(),
     ],
-    async (req: express.Request<ParamsDictionary, any, AuthBody>, res: express.Response) => {
+    async (req: express.Request<ParamsDictionary, never, AuthBody>, res: express.Response) => {
 
       try {
         /** validate results */
-        const errors = validationResult(req.body)
+        const errors = validationResult(req.body);
 
         /** if it is empty continue login */
         if (!errors.isEmpty()) {
           return res.status(400).json({
             errors: errors.array(),
-            message: 'incorrect login data'
+            message: 'incorrect login data',
           });
         }
 
@@ -42,40 +42,39 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
         const user: Nullable<DocumentUser> = await User.findOne({ login });
 
         if (!user) {
-          return await res.status(400).json({ error: 'User not found' });
+          return res.status(400).json({ error: 'User not found' });
         }
 
         /** check password with bcrypt */
-        const checkPassword = await bcrypt.compare(password, user.password)
+        const checkPassword = await bcrypt.compare(password, user.password);
 
         if (!checkPassword) {
-          return await res.status(400).json({ error: 'Invalid login or password' })
+          return res.status(400).json({ error: 'Invalid login or password' });
         }
 
         /** jwt token for auth user */
         const token = jwt.sign(
           { user },
           jwtSecret,
-          { expiresIn: '24h' }
+          { expiresIn: '24h' },
         );
 
         /** prepare response message */
         const responseMessage: ILoginMessage = {
           admin: user.admin,
           message: 'Successfully login',
-        }
+        };
 
         /** set token to cookie */
         await res.cookie('token', token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production'
+          secure: process.env.NODE_ENV === 'production',
         }).json(responseMessage);
-      }
-      catch (e) {
+      } catch (e) {
         res.status(500).json({ error: 'something failed' });
         console.error(e);
       }
-    }
+    },
   );
 
   /** logout - clear cookie */
@@ -85,7 +84,7 @@ const authRouter: (jwtSecret: string) => Router = (jwtSecret: string) => {
       res.clearCookie('token')
         .status(200)
         .end();
-    }
+    },
   );
 
   return router;

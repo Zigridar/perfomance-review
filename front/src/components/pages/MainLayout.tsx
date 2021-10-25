@@ -1,5 +1,5 @@
-import React, {ReactNode} from "react";
-import {Layout} from "antd";
+import React, { ReactNode } from 'react';
+import { Layout } from 'antd';
 
 const { Header, Content, Sider } = Layout;
 
@@ -14,11 +14,11 @@ const MainLayout: React.FC<Props> = (props) => {
 
   const { sidebarContent, children, sideWidth } = props;
 
-    return (
+  return (
       <Layout className={'full-height'}>
         <Header style={{ backgroundColor: '#273241' }} />
         <Layout>
-          <Sider width={sideWidth} theme={"light"}>
+          <Sider width={sideWidth} theme={'light'}>
             {sidebarContent}
           </Sider>
           <Content>
@@ -26,7 +26,7 @@ const MainLayout: React.FC<Props> = (props) => {
           </Content>
         </Layout>
       </Layout>
-    )
-}
+  );
+};
 
 export default MainLayout;

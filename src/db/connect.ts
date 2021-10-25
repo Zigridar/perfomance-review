@@ -8,11 +8,11 @@ export const dbConnect = async (uri: string) => {
   await mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true
+    useCreateIndex: true,
   }, (err) => {
     if (!err)
-      console.info(`connect to mongo on ${uri}`)
+      console.info(`connect to mongo on ${uri}`);
     else
-      throw err
-  })
-}
+      throw err;
+  });
+};

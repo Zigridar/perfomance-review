@@ -1,4 +1,4 @@
-import {IUserWithId} from "../../../../src/common_types/interfaces/User";
+import { IUserWithId } from '../../../../src/common_types/interfaces/User';
 
 export const CREATE_USER = 'CREATE_USER';
 export const EDIT_USER = 'EDIT_USER';
@@ -34,37 +34,37 @@ export interface LoadUsersAction {
 export type AdminAction = CreateUserAction | EditUserAction | DeleteUserAction | LoadUsersAction;
 
 const initialState: AdminState = {
-  users: []
-}
+  users: [],
+};
 
 const adminReducer = (state: AdminState = initialState, action: AdminAction) => {
   switch (action.type) {
     case CREATE_USER:
       return {
         ...state,
-        users: [...state.users, action.user]
-      }
+        users: [...state.users, action.user],
+      };
     case EDIT_USER:
       return {
         ...state,
         users: [
           ...state.users.filter(old => old.id !== action.user.id),
-          action.user
-        ]
-      }
+          action.user,
+        ],
+      };
     case DELETE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.userId)
-      }
+        users: state.users.filter(user => user.id !== action.userId),
+      };
     case LOAD_USERS:
       return {
         ...state,
-        users: action.users
-      }
+        users: action.users,
+      };
     default:
       return state;
   }
-}
+};
 
 export default adminReducer;

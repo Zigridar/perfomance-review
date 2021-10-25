@@ -12,15 +12,13 @@ const admin = (req: express.Request, res: express.Response, next: () => void) =>
   try {
     if (req.user && req.user.admin) {
       next();
-    }
-    else {
+    } else {
       res.status(404).json({ message: 'admin access forbidden' });
     }
-  }
-  catch (e) {
+  } catch (e) {
     res.status(500).json({ message: 'something failed' });
   }
 
-}
+};
 
 export default admin;

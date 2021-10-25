@@ -11,7 +11,7 @@ const UserSchema: Schema<DocumentUser> = new Schema<DocumentUser>({
   password: { type: String, required: true },
   name: { type: String, required: true },
   admin: { type: Boolean, required: true, default: false },
-  leader: { type: Boolean, required: true, default: false }
+  leader: { type: Boolean, required: true, default: false },
 });
 
 const User: Model<DocumentUser> = model<DocumentUser>('user', UserSchema);
@@ -30,9 +30,8 @@ export const createUserIfNotExists: () => Promise<Nullable<DocumentUser>> = asyn
     user.name = 'Auto';
     user.admin = true;
     user.leader = true;
-    return await user.save();
-  }
-  else return null;
+    return user.save();
+  } else return null;
 };
 
 /** Convert to IUserWithId model */
@@ -43,6 +42,6 @@ export const toIUserWithId: (user: DocumentUser) => IUserWithId = (user: Documen
     login: user.login,
     admin: user.admin,
     name: user.name,
-    leader: user.leader
+    leader: user.leader,
   };
-}
+};

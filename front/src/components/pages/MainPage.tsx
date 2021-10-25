@@ -1,10 +1,10 @@
-import React, {ReactNode, useState} from "react";
-import MainLayout from "./MainLayout";
-import {Menu, Tabs} from "antd";
-import Questions from "../Questions";
-import QuestionForm from "../QuestionForm";
+import React, { ReactNode, useState } from 'react';
+import MainLayout from './MainLayout';
+import { Menu, Tabs } from 'antd';
+import Questions from '../Questions';
+import QuestionForm from '../QuestionForm';
 
-const {TabPane} = Tabs
+const { TabPane } = Tabs;
 
 interface MenuProps {
   onMenuClick: (index: number) => void;
@@ -14,7 +14,7 @@ interface MenuProps {
 
 const MainMenu: React.FC<MenuProps> = (props) => {
 
-  const {menuItems, onMenuClick, current} = props
+  const { menuItems, onMenuClick, current } = props;
 
   return (
     <Menu
@@ -28,11 +28,11 @@ const MainMenu: React.FC<MenuProps> = (props) => {
           >
             {item.title}
           </Menu.Item>
-        )
+        );
       })}
     </Menu>
-  )
-}
+  );
+};
 
 const MainPage: React.FC = () => {
 
@@ -42,19 +42,19 @@ const MainPage: React.FC = () => {
   const menuItems = [
     {
       title: 'Анкеты',
-      content: <QuestionForm />
-      },
+      content: <QuestionForm />,
+    },
     {
       title: 'Вопросы',
-      content: <Questions/>
+      content: <Questions/>,
     },
     {
       title: 'Администрирование',
-      content: 'Администрирование'
-    }
-  ]
+      content: 'Администрирование',
+    },
+  ];
 
-  const onMenuClick = (index: number) => setCurrent(index)
+  const onMenuClick = (index: number) => setCurrent(index);
 
   return (
     <MainLayout
@@ -71,11 +71,11 @@ const MainPage: React.FC = () => {
         {menuItems.map((item, index) => {
           return (
             <TabPane key={index.toString()}>{item.content}</TabPane>
-          )
+          );
         })}
       </Tabs>
     </MainLayout>
-  )
-}
+  );
+};
 
 export default MainPage;

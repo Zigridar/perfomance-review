@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {Button, Form, Input, Select, Typography} from "antd";
-import {CloseOutlined, PlusOutlined} from "@ant-design/icons";
-import QuestionModal from "./pages/QuestionModal";
-import {IQuestion} from "../../../src/common_types/interfaces/Question";
-import {IForm} from "../../../src/common_types/interfaces/Form";
-import {AROUND, ATTESTATION, SELF_ATTESTATION} from "../../../src/common_types/interfaces/Review";
+import React, { useState } from 'react';
+import { Button, Form, Input, Select, Typography } from 'antd';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import QuestionModal from './pages/QuestionModal';
+import { IQuestion } from '../../../src/common_types/interfaces/Question';
+import { IForm } from '../../../src/common_types/interfaces/Form';
+import { AROUND, ATTESTATION, SELF_ATTESTATION } from '../../../src/common_types/interfaces/Review';
 
-const {Paragraph} = Typography;
+const { Paragraph } = Typography;
 
 
 interface FormProps {
@@ -16,7 +16,7 @@ interface FormProps {
 
 const FormForm: React.FC<FormProps> = (props) => {
 
-  const {onCancel, onOk} = props;
+  const { onCancel, onOk } = props;
 
   const [questions, setQuestions] = useState<IQuestion[]>([]);
 
@@ -24,23 +24,23 @@ const FormForm: React.FC<FormProps> = (props) => {
 
   const onSuccess = () => {
     form.validateFields().then(res => {
-      res.questions = questions
-      onOk(res)
-    })
-  }
+      res.questions = questions;
+      onOk(res);
+    });
+  };
 
   const [visible, setVisible] = useState(false);
 
   const select = (selected: IQuestion[]) => {
     setVisible(false);
     setQuestions(selected);
-  }
+  };
 
   return (
     <>
       <Paragraph
         style={{
-          fontSize: '35px'
+          fontSize: '35px',
         }}
       >
         Добавление анкеты
@@ -55,7 +55,7 @@ const FormForm: React.FC<FormProps> = (props) => {
         >
           <Input
             style={{
-              backgroundColor: '#f0f2f5'
+              backgroundColor: '#f0f2f5',
             }}
           />
         </Form.Item>
@@ -76,13 +76,13 @@ const FormForm: React.FC<FormProps> = (props) => {
           <div
             style={{
               maxHeight: '350px',
-              overflowY: 'auto'
+              overflowY: 'auto',
             }}
           >
             <Form.List
               name={'questions'}
             >
-              {(fields, { add, remove }, { errors }) => (
+              {(fields, { add, remove }) => (
                 <>
                   {fields.map(filed => (
                     <>
@@ -92,15 +92,15 @@ const FormForm: React.FC<FormProps> = (props) => {
                             height: '40px',
                             borderRadius: 2,
                             border: '1px solid #dedddd',
-                            position: "relative"
+                            position: 'relative',
                           }}
                         >
                           <p
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               top: '50%',
                               padding: '20px',
-                              transform: 'translate(0%, -50%)'
+                              transform: 'translate(0%, -50%)',
                             }}
                           >
                             Question
@@ -108,10 +108,10 @@ const FormForm: React.FC<FormProps> = (props) => {
                           <CloseOutlined
                             onClick={() => remove(filed.name)}
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               right: '10px',
                               top: '50%',
-                              transform: 'translate(-50%, -50%)'
+                              transform: 'translate(-50%, -50%)',
                             }}
                           />
                         </div>
@@ -122,7 +122,7 @@ const FormForm: React.FC<FormProps> = (props) => {
                     <PlusOutlined/>
                     <Button style={{ color: '#000' }} type={'link'} onClick={() => setVisible(true)}>Добавить вопросы</Button>
                   </Form.Item>
-                  <QuestionModal onCancel={() => setVisible(false)} visible={visible} onSelect={(questions) => { add(); select(questions) }}/>
+                  <QuestionModal onCancel={() => setVisible(false)} visible={visible} onSelect={(questions) => { add(); select(questions); }}/>
                 </>
               )}
             </Form.List>
@@ -130,31 +130,31 @@ const FormForm: React.FC<FormProps> = (props) => {
         </Form.Item>
           <Button
             onClick={onSuccess}
-            type={"primary"}
+            type={'primary'}
             style={{
               width: '30%',
               backgroundColor: '#273241',
               borderColor: '#273241',
-              fontWeight: "bold"
+              fontWeight: 'bold',
             }}
           >
             Сохранить
           </Button>
         <Button
           onClick={onCancel}
-          type={"primary"}
+          type={'primary'}
           style={{
             width: '30%',
             backgroundColor: '#273241',
             borderColor: '#273241',
-            fontWeight: "bold"
+            fontWeight: 'bold',
           }}
         >
           Отмена
         </Button>
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default FormForm
+export default FormForm;

@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 
 export interface IAuthContext {
   logout: () => void;
@@ -9,7 +9,7 @@ export interface IAuthContext {
 const AuthContext = createContext<IAuthContext>({
   isAuth: false,
   admin: false,
-  logout: null
+  logout: null,
 });
 
 export default AuthContext;

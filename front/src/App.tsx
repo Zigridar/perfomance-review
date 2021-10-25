@@ -1,10 +1,10 @@
 import 'antd/dist/antd.css';
-import React, {useState} from 'react';
-import {Provider} from 'react-redux';
-import {BrowserRouter} from 'react-router-dom';
-import {APIPath} from '../../src/APIPath';
-import {AuthBody, ILoginMessage} from '../../src/common_types/API';
-import AuthContext, {IAuthContext} from './context/AuthContext';
+import React, { useState } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { APIPath } from '../../src/APIPath';
+import { AuthBody, ILoginMessage } from '../../src/common_types/API';
+import AuthContext, { IAuthContext } from './context/AuthContext';
 import useHttp from './hooks/useHttp.hook';
 import store from './redux/store';
 import Routes from './Routes';
@@ -26,7 +26,7 @@ export const App = () => {
       .then((res) => {
         setAuth(() => true);
         setAdmin(() => !!res.admin);
-      })
+      });
   };
 
   /** logout - clear aut token from cookie */
@@ -35,15 +35,15 @@ export const App = () => {
       .finally(() => {
         setAuth(() => false);
         setAdmin(() => false);
-      })
-  }
+      });
+  };
 
   /** global auth context */
   const context: IAuthContext = {
     logout,
     admin,
-    isAuth
-  }
+    isAuth,
+  };
 
   return (
     <AuthContext.Provider value={context}>
