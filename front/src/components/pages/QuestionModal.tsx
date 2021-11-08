@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import { Button, Modal, Table, Typography } from 'antd';
-import { ReviewType } from '../../../../src/common_types/interfaces/Review';
-import { IQuestion, QuestionType } from '../../../../src/common_types/interfaces/Question';
 import CheckableTag from 'antd/es/tag/CheckableTag';
-import { RootState } from '../../redux/store';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { IQuestion, QuestionType } from '../../../../src/common_types/interfaces/Question';
+import { ReviewType } from '../../../../src/common_types/interfaces/Review';
+import { RootState } from '../../redux/store';
 
 const { Text } = Typography;
 
@@ -32,7 +32,7 @@ interface StateProps {
 type Props = OwnProps & StateProps;
 
 const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
-  questions: state.questions.questions,
+  questions: state.question.questions,
 });
 
 const columns = [

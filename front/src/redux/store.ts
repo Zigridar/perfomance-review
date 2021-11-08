@@ -1,16 +1,16 @@
-import { combineReducers, createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import adminReducer from './reducers/admin.reducer';
-import questionReducer from './reducers/question.reducer';
 import formReducer from './reducers/form.reducer';
+import questionReducer from './reducers/question.reducer';
 
-const rootReducer = combineReducers({
-  admin: adminReducer,
-  questions: questionReducer,
-  forms: formReducer,
+const store = configureStore({
+  reducer: {
+    admin: adminReducer,
+    form: formReducer,
+    question: questionReducer,
+  },
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
-
-const store = createStore(rootReducer);
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

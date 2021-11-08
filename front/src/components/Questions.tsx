@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { Button, Checkbox, Form, Input, Layout, Modal, Radio, Table, Typography } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import React, { ReactNode, useEffect, useState } from 'react';
@@ -5,8 +6,7 @@ import { connect } from 'react-redux';
 import { APIPath } from '../../../src/APIPath';
 import { IQuestion, IQuestionWithId } from '../../../src/common_types/interfaces/Question';
 import useHttp from '../hooks/useHttp.hook';
-import { createQuestion, loadQuestions } from '../redux/ActionCreators';
-import { CreateQuestionAction, LoadQuestionsAction } from '../redux/reducers/question.reducer';
+import { createQuestion, loadQuestions } from '../redux/reducers/question.reducer';
 import { RootState } from '../redux/store';
 
 interface StateProps {
@@ -14,8 +14,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  createQuestion: (question: IQuestion) => CreateQuestionAction;
-  loadQuestions: (questions: IQuestion[]) => LoadQuestionsAction;
+  createQuestion: (question: IQuestion) => PayloadAction<IQuestion>;
+  loadQuestions: (questions: IQuestion[]) => PayloadAction<IQuestion[]>;
 }
 
 type Props = StateProps & DispatchProps;
@@ -28,7 +28,7 @@ interface Column {
 }
 
 const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
-  questions: state.questions.questions,
+  questions: state.question.questions,
 });
 
 const dispatchProps: DispatchProps = {

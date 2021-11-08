@@ -1,15 +1,15 @@
+import { PayloadAction } from '@reduxjs/toolkit';
+import { Button, Layout, Tag, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { APIPath } from '../../../src/APIPath';
 import { IForm } from '../../../src/common_types/interfaces/Form';
-import { CreateFormAction, LoadFormsAction } from '../redux/reducers/form.reducer';
-import { RootState } from '../redux/store';
-import { createForm, loadForms } from '../redux/ActionCreators';
-import CustomTable from './Table';
-import { Button, Layout, Tag, Typography } from 'antd';
 import { getReviewTag, IReviewTag } from '../constants/ReviewTags';
 import useHttp from '../hooks/useHttp.hook';
-import { APIPath } from '../../../src/APIPath';
+import { createForm, loadForms } from '../redux/reducers/form.reducer';
+import { RootState } from '../redux/store';
 import FormForm from './FormForm';
+import CustomTable from './Table';
 
 const { Content } = Layout;
 
@@ -18,14 +18,14 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  loadForms: (forms: IForm[]) => LoadFormsAction;
-  createForm: (form: IForm) => CreateFormAction;
+  loadForms: (forms: IForm[]) => PayloadAction<IForm[]>;
+  createForm: (form: IForm) => PayloadAction<IForm>;
 }
 
 type Props = StateProps & DispatchProps;
 
 const mapStateToProps: (state: RootState) => StateProps = (state: RootState) => ({
-  forms: state.forms.forms,
+  forms: state.form.forms,
 });
 
 const dispatchProps: DispatchProps = {
